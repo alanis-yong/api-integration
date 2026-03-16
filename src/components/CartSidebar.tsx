@@ -30,6 +30,25 @@ export function CartSidebar({
 
   const handlePay = async () => {
     // Lecture: Handle Payment
+    setPaying(true)
+    try {
+      const line_items = cartItems.map(({item, quantity}) => {
+        return {
+          item_id: item.id,
+          quantity: quantity,
+          price: item.price
+        }
+      })
+      const response = await createOrder(line_items, totalPrice)
+      console.log('response', response)
+      showToast('success', 'Payment Success')
+      onClearCart()
+      onClose()
+    } catch (error: any){
+      showToast('error', 'Payment Failed')
+    } finally {
+      setPaying(false)
+    }
   }
 
   return (

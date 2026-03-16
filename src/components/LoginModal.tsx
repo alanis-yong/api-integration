@@ -17,6 +17,16 @@ export const LoginModal = ({ onClose }: LoginModalProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     // Lecture: Handle Login or Register
+    try{
+      setLoading(true)
+      const data = await loginApi(email, password);
+      localStorage.setItem('token', data.token)
+      onClose()
+    } catch (error: any) {
+      setError(error.response.data.message || 'Unauthorized')
+    } finally {
+      setLoading(false)
+    }
     
   }
 

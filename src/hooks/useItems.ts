@@ -24,6 +24,15 @@ export function useItems(): UseItemsResult {
   useEffect(() => {
     const fetchItems = async () => {
       // Lecture: Get Items
+      try{
+        setLoading(true)
+        const data = await getItems()
+        setItems(data)
+      } catch (error: any){
+        setError('items loading failed')
+      } finally {
+        setLoading(false)
+      }
     }
     fetchItems()
   }, [])
