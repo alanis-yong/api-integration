@@ -792,4 +792,577 @@
   .cart-page__grid {
     grid-template-columns: 1fr;
   }
+
+  .product-detail__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HOMEWORK: Style the components below.
+   All the React logic & BEM class names are already wired up.
+   Your job: write the CSS so it looks like the Figma design.
+   ═══════════════════════════════════════════════════════════ */
+
+/* ---- Homework: Filter Bar ----
+   Layout: Flexbox row with gap, wraps on small screens
+   Chips: pill-shaped buttons, --active gets primary bg + white text
+   Hint: display: flex, gap, border-radius for pills, transition on hover */
+
+.filter-bar {
+  /* TODO: Flexbox row with gap, margin below the heading */
+}
+
+.filter-chip {
+  /* TODO: Pill-shaped button
+     - Use var(--color-surface) bg, var(--color-border) border
+     - border-radius for pill shape
+     - padding, font-size, font-weight
+     - cursor pointer, transition */
+}
+
+.filter-chip--active {
+  /* TODO: Active state
+     - var(--color-primary) background
+     - white text, no border or primary border */
+}
+
+.filter-chip:hover:not(.filter-chip--active) {
+  /* TODO: Hover state for inactive chips */
+}
+
+
+/* ---- Homework: Product Detail Page ----
+   Layout: CSS Grid, 2 columns on desktop, 1 on mobile
+   See Figma "Assignment: Basic" → "Product Detail Page" frame */
+
+.product-detail {
+  /* TODO: Container with max-width and padding, like .cart-page */
+}
+
+.product-detail__grid {
+  /* TODO: CSS Grid — 2 equal columns with gap
+     Hint: display: grid, grid-template-columns: 1fr 1fr, gap */
+}
+
+.product-detail__image {
+  /* TODO: Rounded corners, overflow hidden, aspect-ratio or fixed height */
+}
+
+.product-detail__info {
+  /* TODO: Flex column with gap between children */
+}
+
+.product-detail__badges {
+  /* TODO: Flex row with gap for category + stock badges */
+}
+
+.product-detail__name {
+  /* TODO: Large heading — font-size, font-weight, color, margin */
+}
+
+.product-detail__price {
+  /* TODO: Large price text in var(--color-primary) */
+}
+
+.product-detail__description {
+  /* TODO: Body text in var(--color-text-light), line-height */
+}
+
+.product-detail__qty-label {
+  /* TODO: Small label above quantity selector */
+}
+
+.product-detail__actions {
+  /* TODO: Spacing above the quantity selector */
+}
+
+.product-detail__add-btn {
+  /* TODO: Full-width primary button
+     - var(--color-primary) background, white text
+     - padding, border-radius, font-weight
+     - transition, hover state */
+}
+
+.product-detail__add-btn:hover {
+  /* TODO: Darker hover background */
+}
+
+.product-detail__add-btn--added {
+  /* TODO: Success state — green background */
+}
+
+.product-detail__add-btn:disabled {
+  /* TODO: Disabled state — gray, no cursor */
+}
+
+.product-detail__empty {
+  /* TODO: Centered message for "not found" */
+}
+
+.product-detail__back-link {
+  /* TODO: Link styled in primary color */
+}
+
+
+/* ---- Homework: Badges ----
+   Small pill labels for category and stock status */
+
+.badge {
+  /* TODO: Inline pill — small font, padding, border-radius, font-weight */
+}
+
+.badge--category {
+  /* TODO: Outlined style — border + text color, no fill */
+}
+
+.badge--in-stock {
+  /* TODO: Green background (var(--color-success)), white text */
+}
+
+.badge--low-stock {
+  /* TODO: Orange/amber background, white text */
+}
+
+.badge--out-of-stock {
+  /* TODO: Red background (var(--color-error)), white text */
+}
+
+
+/* ---- Homework: Quantity Selector ----
+   Horizontal row: [ − ] [ value ] [ + ] */
+
+.qty-selector {
+  /* TODO: Inline-flex row with border, border-radius
+     Hint: display: inline-flex, align-items: center, var(--color-border) */
+}
+
+.qty-selector__btn {
+  /* TODO: Button with no background, padding, font-size
+     - cursor pointer, transition */
+}
+
+.qty-selector__btn--disabled {
+  /* TODO: Reduced opacity, no pointer */
+}
+
+.qty-selector__value {
+  /* TODO: Centered number, min-width, font-weight */
+}
+
+
+/* ---- Homework: Breadcrumb ----
+   Horizontal nav trail: Store / Category / Current */
+
+.breadcrumb {
+  /* TODO: Flex row, small font-size, margin-bottom, color */
+}
+
+.breadcrumb__separator {
+  /* TODO: Muted color, horizontal margin */
+}
+
+.breadcrumb__link {
+  /* TODO: Link color, hover underline */
+}
+
+.breadcrumb__current {
+  /* TODO: Current page — darker color, no link */
+}
+
+
+/* ---- Homework: Skeleton Loading Card ----
+   Placeholder card with shimmer animation while loading
+   Hint: Use @keyframes and linear-gradient for the shimmer */
+
+@keyframes shimmer {
+  /* TODO: Animate background-position from left to right
+     0%   { background-position: -200px 0; }
+     100% { background-position: calc(200px + 100%) 0; } */
+}
+
+.skeleton-shimmer {
+  /* TODO: Apply the shimmer animation
+     - background: linear-gradient(90deg, #e0e0f0 25%, #f0f0f8 50%, #e0e0f0 75%)
+     - background-size, animation */
+}
+
+.skeleton-card {
+  /* TODO: Same size/shape as .item-card — rounded corners, shadow, overflow hidden */
+}
+
+.skeleton-card__image {
+  /* TODO: Same aspect-ratio as .item-card__image */
+}
+
+.skeleton-card__body {
+  /* TODO: Padding matching .item-card__body */
+}
+
+.skeleton-card__line {
+  /* TODO: Rounded rectangle placeholder for text
+     - height, border-radius, margin-bottom */
+}
+
+.skeleton-card__line--short {
+  /* TODO: Shorter width (e.g. 40%) for tag placeholder */
+}
+
+.skeleton-card__line--medium {
+  /* TODO: Medium width (e.g. 70%) */
+}
+
+.skeleton-card__line--price {
+  /* TODO: Price placeholder width */
+}
+
+.skeleton-card__line--btn {
+  /* TODO: Button placeholder width + height */
+}
+
+.skeleton-card__footer {
+  /* TODO: Flex row with space-between, like .item-card__footer */
+}
+
+
+/* ---- Homework: Related Products ----
+   Horizontal row of small product cards */
+
+.related-products {
+  /* TODO: Section with margin-top */
+}
+
+.related-products__title {
+  /* TODO: Section heading */
+}
+
+.related-products__row {
+  /* TODO: Flex row with gap, overflow-x auto for scroll on mobile */
+}
+
+.related-card {
+  /* TODO: Small horizontal card — flex row, white bg, rounded, shadow
+     - text-decoration none, transition on hover */
+}
+
+.related-card__image {
+  /* TODO: Small square image area */
+}
+
+.related-card__info {
+  /* TODO: Flex column with name + price */
+}
+
+.related-card__name {
+  /* TODO: Bold text, truncate with ellipsis */
+}
+
+.related-card__price {
+  /* TODO: Primary color, small font */
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   ADVANCED HOMEWORK: Dark Mode + Multi-Step Checkout
+   Style the components below to match the Figma design.
+   ═══════════════════════════════════════════════════════════ */
+
+/* ---- Homework: Dark Mode ----
+   Override CSS variables when [data-theme='dark'] is set on <html>.
+   ALL existing components should switch automatically because they
+   already use var(). You just need to redefine the variable values. */
+
+[data-theme='dark'] {
+  /* TODO: Override all theme variables for dark mode
+     --color-primary: #818cf8;
+     --color-primary-hover: #6366f1;
+     --color-text: #e2e8f0;
+     --color-text-light: #94a3b8;
+     --color-text-muted: #64748b;
+     --color-bg: #0f172a;
+     --color-surface: #1e293b;
+     --color-border: #334155;
+     --color-success: #34d399;
+     --color-error: #f87171;
+     --shadow-card: 0 2px 10px rgba(0, 0, 0, 0.3); */
+}
+
+/* Smooth theme transition on body */
+body {
+  /* TODO: Add transition for background-color and color (0.2s) */
+}
+
+
+/* ---- Homework: Theme Toggle Switch ---- */
+
+.theme-toggle {
+  /* TODO: Button with no border/bg, flex row, gap, cursor pointer, align center */
+}
+
+.theme-toggle__icon {
+  /* TODO: Emoji size */
+}
+
+.theme-toggle__track {
+  /* TODO: Pill-shaped track
+     - Width ~40px, height ~22px, border-radius pill
+     - var(--color-border) background
+     - transition: background-color 0.2s
+     - position relative (for knob) */
+}
+
+.theme-toggle__track--dark {
+  /* TODO: Active track — primary color background */
+}
+
+.theme-toggle__knob {
+  /* TODO: Small circle knob inside the track
+     - position absolute, width/height ~16px, border-radius 50%
+     - white background
+     - transition: transform 0.2s
+     - left: 3px normally */
+}
+
+.theme-toggle__track--dark .theme-toggle__knob {
+  /* TODO: Slide knob to right — transform: translateX(18px) */
+}
+
+
+/* ---- Homework: Checkout Layout ---- */
+
+.checkout {
+  /* TODO: Container — max-width 1100px, margin auto, padding */
+}
+
+.checkout__grid {
+  /* TODO: CSS Grid — two columns: 1fr 360px, gap 32px
+     Hint: display: grid, grid-template-columns, gap, align-items: start */
+}
+
+.checkout__grid--centered {
+  /* TODO: Single centered column (for confirmation page) */
+}
+
+.checkout__main {
+  /* TODO: Min-width 0 to prevent grid blowout */
+}
+
+.checkout__sidebar {
+  /* TODO: Sticky positioning — position: sticky, top: 76px */
+}
+
+
+/* ---- Homework: Checkout Stepper ----
+   Horizontal step indicator: (1) Cart → (2) Shipping → (3) Payment → (4) Confirmation
+   See Figma "Assignment: Advanced" frames for the visual */
+
+.stepper {
+  /* TODO: Flexbox row, centered, margin-bottom, padding */
+}
+
+.stepper__item {
+  /* TODO: Flex row with connector line + step, align center */
+}
+
+.stepper__step {
+  /* TODO: Flex column, align center, gap between circle and label */
+}
+
+.stepper__circle {
+  /* TODO: Circle — width/height 36px, border-radius 50%
+     - flex center for number/check
+     - background varies by state (use modifier classes) */
+}
+
+.stepper__step--done .stepper__circle {
+  /* TODO: Primary background, white text, cursor pointer */
+}
+
+.stepper__step--active .stepper__circle {
+  /* TODO: Primary background, white text */
+}
+
+.stepper__step--future .stepper__circle {
+  /* TODO: Border color, gray text, muted */
+}
+
+.stepper__number {
+  /* TODO: Font size, weight for step number */
+}
+
+.stepper__check {
+  /* TODO: Checkmark — white, bold */
+}
+
+.stepper__label {
+  /* TODO: Small text below circle, font-weight varies by state */
+}
+
+.stepper__step--active .stepper__label {
+  /* TODO: Primary color, bold */
+}
+
+.stepper__line {
+  /* TODO: Horizontal connector line
+     - width ~80px, height 2px
+     - var(--color-border) background
+     - margin horizontal */
+}
+
+.stepper__line--filled {
+  /* TODO: Filled line — primary color background */
+}
+
+
+/* ---- Homework: Checkout Form ---- */
+
+.checkout-form {
+  /* TODO: White card — background, border-radius, padding, shadow */
+}
+
+.checkout-form__title {
+  /* TODO: Form heading — font-size, weight, margin-bottom */
+}
+
+.form-group {
+  /* TODO: Stack label + input + error vertically, margin-bottom */
+}
+
+.form-group__label {
+  /* TODO: Small label — font-size, font-weight, color, margin-bottom */
+}
+
+.form-group__input {
+  /* TODO: Text input
+     - width 100%, padding, font-size
+     - border: 1px solid var(--color-border)
+     - border-radius, background var(--color-surface) or slightly different
+     - transition: border-color 0.2s, box-shadow 0.2s */
+}
+
+.form-group__input:focus {
+  /* TODO: Focus state
+     - border-color: var(--color-primary)
+     - box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1)
+     - outline: none */
+}
+
+.form-group__input--error {
+  /* TODO: Error state — border-color var(--color-error) */
+}
+
+.form-group__error {
+  /* TODO: Error message — small, red text, margin-top */
+}
+
+.form-row {
+  /* TODO: Two-column grid for side-by-side inputs
+     Hint: display: grid, grid-template-columns: 1fr 1fr, gap: 16px */
+}
+
+.checkout-form__actions {
+  /* TODO: Flex row — space-between, margin-top */
+}
+
+.checkout-form__btn {
+  /* TODO: Base button — padding, border-radius, font-weight, cursor, transition */
+}
+
+.checkout-form__btn--back {
+  /* TODO: Ghost/outline — border, muted text, no fill */
+}
+
+.checkout-form__btn--back:hover {
+  /* TODO: Hover state */
+}
+
+.checkout-form__btn--next {
+  /* TODO: Primary button — primary bg, white text */
+}
+
+.checkout-form__btn--next:hover {
+  /* TODO: Darker hover bg */
+}
+
+
+/* ---- Homework: Confirmation Page ---- */
+
+.confirmation {
+  /* TODO: Centered layout — flex, justify center, padding-top */
+}
+
+.confirmation__card {
+  /* TODO: Centered card — max-width, white bg, border-radius, shadow, padding, text-align center */
+}
+
+.confirmation__icon {
+  /* TODO: Large green circle — width/height ~80px, border-radius 50%
+     - var(--color-success) background
+     - flex center for checkmark
+     - margin auto + bottom margin
+     - animation: scale-in 0.4s ease */
+}
+
+@keyframes scale-in {
+  /* TODO: Scale from 0 to 1
+     0%   { transform: scale(0); opacity: 0; }
+     100% { transform: scale(1); opacity: 1; } */
+}
+
+.confirmation__check {
+  /* TODO: White checkmark — font-size, color white */
+}
+
+.confirmation__title {
+  /* TODO: Large heading */
+}
+
+.confirmation__subtitle {
+  /* TODO: Muted text below heading */
+}
+
+.confirmation__details {
+  /* TODO: Details section — border-top, padding-top, margin-top, text-align left */
+}
+
+.confirmation__row {
+  /* TODO: Flex row — space-between, padding vertical, border-bottom */
+}
+
+.confirmation__label {
+  /* TODO: Muted label text */
+}
+
+.confirmation__value {
+  /* TODO: Bold value text */
+}
+
+.confirmation__value--status {
+  /* TODO: Special color for status (primary or success) */
+}
+
+.confirmation__btn {
+  /* TODO: Full-width primary button — margin-top, padding, bg, text, border-radius
+     - display block, text-align center, text-decoration none */
+}
+
+.confirmation__btn:hover {
+  /* TODO: Hover state */
+}
+
+
+/* ---- Responsive: Checkout ---- */
+
+@media (max-width: 768px) {
+  .checkout__grid {
+    /* TODO: Stack to single column */
+  }
+
+  .stepper {
+    /* TODO: Adjust for mobile — maybe smaller circles, hide labels */
+  }
+
+  .form-row {
+    /* TODO: Stack to single column */
+  }
 }

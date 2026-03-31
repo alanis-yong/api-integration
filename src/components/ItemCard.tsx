@@ -1,5 +1,7 @@
+import { Link } from 'react-router-dom'
 import type { Item } from '../hooks/useItems'
 import { ItemImage } from './ItemImage'
+import { getCategory } from '../utils/categories'
 
 interface ItemCardProps {
   item: Item
@@ -13,11 +15,14 @@ export function ItemCard({ item, onAddToCart }: ItemCardProps) {
 
   return (
     <div className="item-card">
-      <div className="item-card__image">
+      <Link to={`/product/${item.id}`} className="item-card__image">
         <ItemImage id={item.id} name={item.name} />
-      </div>
+      </Link>
       <div className="item-card__body">
-        <h3 className="item-card__name">{item.name}</h3>
+        <span className="item-card__tag">{getCategory(item.name)}</span>
+        <Link to={`/product/${item.id}`} className="item-card__name-link">
+          <h3 className="item-card__name">{item.name}</h3>
+        </Link>
         <p className="item-card__desc">{item.description}</p>
         <div className="item-card__footer">
           <span className="item-card__price">{formatPrice(item.price)}</span>

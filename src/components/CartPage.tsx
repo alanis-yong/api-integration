@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import type { CartItem } from '../hooks/useCartReducer'
 import { createOrder } from '../api/api'
 
@@ -14,6 +14,7 @@ const formatPrice = (amount: number): string =>
   `${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ₽`
 
 export function CartPage({ cartItems, totalPrice, onRemoveFromCart, onClearCart }: CartPageProps) {
+  const navigate = useNavigate()
   const [paying, setPaying] = useState(false)
   const [toast, setToast] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
 
@@ -113,10 +114,10 @@ export function CartPage({ cartItems, totalPrice, onRemoveFromCart, onClearCart 
               </div>
               <button
                 className="checkout-button"
-                onClick={handlePay}
-                disabled={paying || cartItems.length === 0}
+                onClick={() => navigate('/checkout/shipping')}
+                disabled={cartItems.length === 0}
               >
-                {paying ? 'Processing…' : 'Pay'}
+                Proceed to Checkout →
               </button>
             </div>
           </div>
