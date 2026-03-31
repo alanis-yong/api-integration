@@ -23,10 +23,16 @@
   margin: 0 auto;
   padding: 0 24px;
   height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 /* TODO: Make logo a flex row so the icon and text sit side by side */
 .shop__logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-size: 1.1rem;
   font-weight: 700;
   color: #6366f1;
@@ -35,6 +41,9 @@
 
 /* TODO: Make nav links sit in a row with a gap between them */
 .shop__nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .shop__nav-link {
@@ -87,6 +96,9 @@
    TODO: Turn this into a responsive CSS Grid
    Hint: display: grid, grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)), gap */
 .shop__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
 }
 
 .shop__state {
@@ -144,6 +156,8 @@
   border-radius: 14px;
   overflow: hidden;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+  display: flex;
+  flex-direction: column;
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
@@ -157,6 +171,7 @@
   width: 100%;
   aspect-ratio: 1 / 1;
   overflow: hidden;
+  max-height: 280px;
 }
 
 .item-card__image svg {
@@ -187,6 +202,9 @@
 /* TODO: Make body a flex column with flex: 1 so it stretches to fill card height */
 .item-card__body {
   padding: 18px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .item-card__name {
@@ -206,6 +224,10 @@
 
 /* TODO: Add flex to footer so price and "Add to cart" button sit on opposite sides */
 .item-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   margin-top: auto;
 }
 
@@ -241,13 +263,17 @@
 .shop__login-btn {
   padding: 8px 18px;
   border-radius: 8px;
-  border: none;
+  border: 1.5px solid transparent;
   background: #6366f1;
   color: #fff;
   font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
+  height: 40px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
 }
 
 .shop__login-btn:hover {
@@ -283,6 +309,8 @@
   text-decoration: none;
   cursor: pointer;
   transition: border-color 0.2s, color 0.2s;
+  height: 40px;
+  box-sizing: border-box;
 }
 
 .shop__cart-btn:hover,
@@ -293,19 +321,19 @@
 
 .shop__cart-badge {
   position: absolute;
-  top: -6px;
-  right: -6px;
+  top: -8px;
+  right: -8px;
   background: #6366f1;
   color: #fff;
   font-size: 0.7rem;
   font-weight: 700;
   min-width: 18px;
   height: 18px;
-  border-radius: 9px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 4px;
+  padding: 2px;
 }
 
 /* ---- Modal ---- */
@@ -512,6 +540,9 @@
 
 /* TODO: Add CSS Grid layout — items list on the left, order summary on the right */
 .cart-page__grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 32px;
   align-items: start;
 }
 
@@ -547,6 +578,9 @@
   padding: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .cart-row__info {
@@ -578,6 +612,8 @@
   font-size: 1.05rem;
   font-weight: 800;
   color: #6366f1;
+  min-width: 120px;
+  text-align: right;
 }
 
 .cart-row__remove {
@@ -620,6 +656,8 @@
   border-radius: 14px;
   padding: 28px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+  position: sticky;
+  top: 76px;
 }
 
 .order-summary__title {
@@ -637,6 +675,9 @@
 
 /* TODO: Add flex so "Total" label and price sit on opposite sides */
 .order-summary__total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
   font-size: 1rem;
   font-weight: 600;
   color: #444;
@@ -730,3 +771,25 @@
 /* ---- Code-With-Me: Responsive ----
    TODO: Add @media (max-width: 768px) to make the grids single-column
    and adjust the header for small screens */
+
+@media (max-width: 768px) {
+  .shop__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .shop__header-inner {
+    padding: 0 16px;
+  }
+
+  .shop__catalog {
+    padding: 24px 16px 48px;
+  }
+
+  .cart-page {
+    padding: 24px 16px 48px;
+  }
+
+  .cart-page__grid {
+    grid-template-columns: 1fr;
+  }
+}

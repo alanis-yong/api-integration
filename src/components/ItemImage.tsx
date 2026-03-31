@@ -39,7 +39,7 @@ export function ItemImage({ id, name }: ItemImageProps) {
       <circle cx="100" cy="85" r="38" fill="rgba(255,255,255,0.15)" />
       <text
         x="100"
-        y="105"
+        y="85"
         textAnchor="middle"
         dominantBaseline="middle"
         fontFamily="system-ui, sans-serif"
