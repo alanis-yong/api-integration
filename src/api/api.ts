@@ -3,7 +3,8 @@ import type { Item } from '../hooks/useItems'
 
 // Lecture: Create Resuable API Instance
 const api = axios.create({
-  baseURL: 'http://localhost:8082'
+  // Dev: Vite proxies /api → http://localhost:8080 (see vite.config.ts). Prod/preview: call API directly.
+  baseURL: import.meta.env.DEV ? '/api' : 'http://localhost:8080',
 })
 
 // Lecture: Add JWT token to headers using Axios interceptors

@@ -33,11 +33,11 @@
   letter-spacing: -0.3px;
 }
 
-/* TODO: Make nav buttons sit in a row with a gap between them */
+/* TODO: Make nav links sit in a row with a gap between them */
 .shop__nav {
 }
 
-.shop__nav a {
+.shop__nav-link {
   font-size: 0.9rem;
   font-weight: 500;
   color: #555;
@@ -45,28 +45,13 @@
   transition: color 0.2s;
 }
 
-.shop__nav a:hover {
+.shop__nav-link:hover {
   color: #6366f1;
 }
 
-.shop__hero {
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-  color: #fff;
-  text-align: center;
-  padding: 60px 24px 52px;
-}
-
-.shop__hero h1 {
-  font-size: 2.4rem;
-  font-weight: 800;
-  margin: 0 0 12px;
-  letter-spacing: -0.5px;
-}
-
-.shop__hero p {
-  font-size: 1.1rem;
-  opacity: 0.88;
-  margin: 0;
+.shop__nav-link--active {
+  color: #6366f1;
+  font-weight: 600;
 }
 
 .shop__main {
@@ -150,7 +135,6 @@
 }
 
 /* ---- Code-With-Me: Item Cards ----
-   TODO: Style the item card — background, border-radius, box-shadow, hover lift effect
    TODO: Make .item-card a flex column
    TODO: Make .item-card__body a flex column with flex: 1 so it fills the card
    TODO: Make .item-card__footer flex so price and button sit on opposite sides */
@@ -283,6 +267,48 @@
 .shop__login-btn--user:hover {
   background: #e0e7ff;
 }
+
+.shop__cart-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1.5px solid #e0e0f0;
+  background: #fff;
+  color: #444;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.shop__cart-btn:hover,
+.shop__cart-btn--active {
+  border-color: #6366f1;
+  color: #6366f1;
+}
+
+.shop__cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #6366f1;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+}
+
+/* ---- Modal ---- */
 
 .modal-overlay {
   position: fixed;
@@ -450,269 +476,221 @@
   margin: 0;
 }
 
-.shop__cart-btn {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  border-radius: 8px;
-  border: 1.5px solid #e0e0f0;
-  background: #fff;
-  color: #444;
-  font-size: 0.875rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: border-color 0.2s, color 0.2s;
+/* ---- Code-With-Me: Cart Page ----
+   TODO: Add CSS Grid to .cart-page__grid to put item list and order summary side by side
+   TODO: Make .cart-row flex so name, qty, price, and remove button sit in a row
+   TODO: Add sticky positioning to .order-summary
+   TODO: Make .order-summary__total flex so label and price sit on opposite sides */
+
+.cart-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 24px 64px;
 }
 
-.shop__cart-btn:hover {
-  border-color: #6366f1;
-  color: #6366f1;
+.cart-page__header {
+  margin-bottom: 28px;
 }
 
-.shop__cart-badge {
-  position: absolute;
-  top: -6px;
-  right: -6px;
-  background: #6366f1;
-  color: #fff;
-  font-size: 0.7rem;
-  font-weight: 700;
-  min-width: 18px;
-  height: 18px;
-  border-radius: 9px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 4px;
-}
-
-.cart-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.35);
-  z-index: 300;
-  animation: fade-in 0.2s ease;
-}
-
-/* ---- Code-With-Me: Cart Sidebar ----
-   The sidebar slides in from the right using transform + transition.
-   TODO: Make .cart-sidebar a flex column so header/list/footer stack
-   TODO: Make .cart-sidebar__header flex so title and close button sit on opposite sides
-   TODO: Make .cart-sidebar__footer flex column with a gap
-   TODO: Make .cart-sidebar__total flex so label and price sit on opposite sides */
-
-.cart-sidebar {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 380px;
-  max-width: 100vw;
-  height: 100vh;
-  background: #fff;
-  z-index: 301;
-  box-shadow: -4px 0 32px rgba(0, 0, 0, 0.12);
-  transform: translateX(100%);
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.cart-sidebar--open {
-  transform: translateX(0);
-}
-
-/* TODO: Add flex layout to header */
-.cart-sidebar__header {
-  padding: 20px 24px;
-  border-bottom: 1px solid #f0f0f8;
-}
-
-.cart-sidebar__title {
-  font-size: 1.2rem;
+.cart-page__title {
+  font-size: 1.8rem;
   font-weight: 800;
-  margin: 0;
   color: #1a1a2e;
+  margin: 0 0 4px;
 }
 
-.cart-sidebar__close {
-  background: none;
-  border: none;
-  font-size: 1rem;
-  color: #aaa;
-  cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 6px;
-  transition: color 0.2s, background 0.2s;
-}
-
-.cart-sidebar__close:hover {
-  color: #333;
-  background: #f3f3f3;
-}
-
-.cart-sidebar__empty {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  color: #aaa;
-  font-size: 0.95rem;
-}
-
-.cart-sidebar__list {
-  list-style: none;
+.cart-page__subtitle {
+  font-size: 0.9rem;
+  color: #888;
   margin: 0;
-  padding: 0;
-  flex: 1;
-  overflow-y: auto;
 }
 
-.cart-item {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 16px 24px;
-  border-bottom: 1px solid #f0f0f8;
-}
-
-.cart-item__info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.cart-item__name {
-  font-size: 0.95rem;
+.cart-page__link {
+  color: #6366f1;
   font-weight: 600;
-  color: #1a1a2e;
 }
 
-.cart-item__unit-price {
-  font-size: 0.8rem;
+/* TODO: Add CSS Grid layout — items list on the left, order summary on the right */
+.cart-page__grid {
+  align-items: start;
+}
+
+.cart-empty {
+  background: #fff;
+  border-radius: 14px;
+  padding: 80px 24px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+  color: #888;
+}
+
+.cart-empty p {
+  font-size: 1rem;
+  margin: 12px 0 8px;
+}
+
+.cart-empty__cta {
+  color: #6366f1;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.cart-empty__cta:hover {
+  text-decoration: underline;
+}
+
+/* TODO: Add flex layout to each cart row so info, qty, price, and remove sit in a row */
+.cart-row {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  margin-bottom: 12px;
+}
+
+.cart-row__info {
+  flex: 1;
+}
+
+.cart-row__name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 4px;
+}
+
+.cart-row__unit {
+  font-size: 0.82rem;
   color: #999;
 }
 
-.cart-item__controls {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.cart-item__qty {
-  display: flex;
-  align-items: center;
-  gap: 0;
+.cart-row__qty {
   border: 1.5px solid #e0e0f0;
   border-radius: 8px;
-  overflow: hidden;
-}
-
-.cart-item__qty-btn {
-  background: none;
-  border: none;
-  width: 30px;
-  height: 30px;
-  font-size: 1rem;
-  cursor: pointer;
-  color: #555;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.15s;
-}
-
-.cart-item__qty-btn:hover {
-  background: #f5f5ff;
-  color: #6366f1;
-}
-
-.cart-item__qty-value {
-  min-width: 28px;
-  text-align: center;
+  padding: 4px 12px;
   font-size: 0.9rem;
   font-weight: 600;
   color: #1a1a2e;
-  border-left: 1.5px solid #e0e0f0;
-  border-right: 1.5px solid #e0e0f0;
-  line-height: 30px;
 }
 
-.cart-item__subtotal {
-  font-weight: 700;
-  font-size: 0.95rem;
+.cart-row__subtotal {
+  font-size: 1.05rem;
+  font-weight: 800;
   color: #6366f1;
-  margin-left: auto;
 }
 
-.cart-item__remove {
+.cart-row__remove {
   background: none;
   border: none;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: #ccc;
   cursor: pointer;
-  padding: 4px;
+  padding: 6px;
   border-radius: 4px;
   transition: color 0.15s, background 0.15s;
 }
 
-.cart-item__remove:hover {
+.cart-row__remove:hover {
   color: #ef4444;
   background: #fef2f2;
 }
 
-/* TODO: Add flex column + gap to footer */
-.cart-sidebar__footer {
-  padding: 20px 24px;
-  border-top: 1px solid #f0f0f8;
-}
-
-/* TODO: Add flex so "Total" label and price sit on opposite sides */
-.cart-sidebar__total {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #444;
-}
-
-.cart-sidebar__total-price {
-  font-size: 1.2rem;
-  font-weight: 800;
-  color: #1a1a2e;
-}
-
-.cart-sidebar__checkout {
-  padding: 13px;
-  border-radius: 8px;
-  border: none;
-  background: #6366f1;
-  color: #fff;
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.cart-sidebar__checkout:hover {
-  background: #4f46e5;
-}
-
-.cart-sidebar__clear {
-  padding: 10px;
-  border-radius: 8px;
-  border: 1.5px solid #e0e0f0;
+.cart-list__clear {
   background: none;
+  border: 1.5px solid #e0e0f0;
+  border-radius: 8px;
+  padding: 10px 20px;
   color: #888;
   font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
   transition: border-color 0.2s, color 0.2s;
+  margin-top: 4px;
 }
 
-.cart-sidebar__clear:hover {
+.cart-list__clear:hover {
   border-color: #ef4444;
   color: #ef4444;
 }
+
+/* TODO: Add sticky positioning so summary stays visible while scrolling */
+.order-summary {
+  background: #fff;
+  border-radius: 14px;
+  padding: 28px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+}
+
+.order-summary__title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #1a1a2e;
+  margin: 0 0 20px;
+}
+
+.order-summary__divider {
+  border: none;
+  border-top: 1px solid #e8e8f0;
+  margin: 16px 0;
+}
+
+/* TODO: Add flex so "Total" label and price sit on opposite sides */
+.order-summary__total {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 4px;
+}
+
+.order-summary__price {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #1a1a2e;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.88rem;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.summary-row__label {
+  color: #888;
+}
+
+.summary-row__value {
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.checkout-button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  background: #6366f1;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 20px;
+}
+
+.checkout-button:hover:not(:disabled) {
+  background: #4f46e5;
+}
+
+.checkout-button:disabled {
+  background: #a5b4fc;
+  cursor: not-allowed;
+}
+
+/* ---- Toast ---- */
 
 .toast {
   position: fixed;
@@ -739,6 +717,8 @@
   color: #fff;
 }
 
+/* ---- Footer ---- */
+
 .shop__footer {
   background: #1a1a2e;
   color: rgba(255, 255, 255, 0.5);
@@ -748,5 +728,5 @@
 }
 
 /* ---- Code-With-Me: Responsive ----
-   TODO: Add @media (max-width: 768px) to make the grid single-column
+   TODO: Add @media (max-width: 768px) to make the grids single-column
    and adjust the header for small screens */

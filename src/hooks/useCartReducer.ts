@@ -9,12 +9,12 @@ export interface CartItem {
 
 type Action =
   | { type: 'ADD'; item: Item, newQuantity: number, existing: boolean }
+  | { type: 'REMOVE'; itemId: number }
   | { type: 'CLEAR' }
   | { type: 'INIT'; cartItems: CartItem[] }
 
 const cartReducer = (state: CartItem[], action: Action): CartItem[] => {
   switch (action.type) {
-    // Lecture: Create case for adding item in cart
     case 'INIT':
       return action.cartItems
     case 'ADD':
@@ -22,6 +22,8 @@ const cartReducer = (state: CartItem[], action: Action): CartItem[] => {
         return state.map(ci => ci.item.id === action.item.id ? {...ci, quantity: action.newQuantity}: ci)
       }
       return [...state, {item: action.item,quantity: action.newQuantity}]
+    case 'REMOVE':
+      return state.filter(ci => ci.item.id !== action.itemId)
     case 'CLEAR':
       return []
     default:
@@ -35,7 +37,6 @@ export const useCart = (items: Item[]) => {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    // Lecture: Get Cart
     if(items.length === 0) return;
     const fetch = async () => {
       try {
@@ -44,7 +45,6 @@ export const useCart = (items: Item[]) => {
         const parsedData = data.map((entry: {item_id: number, quantity: number}) => {
           const item = items.find(ci => ci.id === entry.item_id)
           if(!item) return null
-
           return {item, quantity: entry.quantity}
         }).filter(Boolean)
         dispatch({type: 'INIT', cartItems: parsedData})
@@ -57,24 +57,25 @@ export const useCart = (items: Item[]) => {
     fetch()
   }, [items])
 
-  // Lecture: Add Item to Cart
   const addToCart = async (item: Item) => {
     const exist = cartItems.find(ci => ci.item.id === item.id);
     const newQuantity = exist ? exist.quantity + 1 : 1
-
+    // Optimistic update: update UI first, then sync to API
+    dispatch({type: 'ADD', item, newQuantity, existing: !!exist})
     try {
       await addCartItem(item.id, newQuantity)
-      dispatch({type: 'ADD', item, newQuantity, existing: !!exist})
     } catch (error: any){
       setError('Add to cart failed')
     }
   }
 
-  // Lecture: Clear Cart
+  const removeFromCart = (itemId: number) => {
+    dispatch({type: 'REMOVE', itemId})
+  }
+
   const clearCart = () => dispatch({type: 'CLEAR'})
 
-  // Lecture: Calculate Total Items and Price
   const totalItems = cartItems.reduce((sum, ci) => sum + ci.quantity, 0)
   const totalPrice = cartItems.reduce((sum, ci) => sum + ci.item.price * ci.quantity,0)
-  return { cartItems, addToCart, clearCart, totalItems, totalPrice, loading, error }
+  return { cartItems, addToCart, removeFromCart, clearCart, totalItems, totalPrice, loading, error }
 }
