@@ -1,14 +1,16 @@
-# Week 6 Homework — CSS Mastery (Checkout UI)
+# Week 6 Homework — CSS Mastery
 
-Choose **one** assignment based on your comfort level. Both build on top of the existing Xsolla Store codebase. Use **plain CSS + BEM naming + CSS custom properties** (no Tailwind, no CSS Modules, no styled-components).
+Build on top of the existing Xsolla Store codebase. Use **plain CSS + BEM naming + CSS custom properties** (no Tailwind, no CSS Modules, no styled-components).
 
-Figma designs are in the shared Figma file:
-- **Basic** — page "Assignment: Basic" (2 frames: Store + Filters, Product Detail Page)
-- **Advanced** — page "Assignment: Advanced" (3 frames: Shipping, Payment Dark Mode, Confirmation)
+**Basic is compulsory.** If you're comfortable, take on Advanced too for extra credit — it includes everything from Basic plus a multi-step checkout and dark mode.
+
+Figma designs:
+- **Basic** — [Assignment: Basic](https://www.figma.com/design/2nKo0edoLwX7fjCNQWgSYE/Xsolla-School---CSS-Mastery?node-id=50-2) (2 frames: Store + Filters, Product Detail Page)
+- **Advanced** — [Assignment: Advanced](https://www.figma.com/design/2nKo0edoLwX7fjCNQWgSYE/Xsolla-School---CSS-Mastery?node-id=52-2) (3 frames: Shipping, Payment Dark Mode, Confirmation)
 
 ---
 
-## Basic: Category Filters + Product Detail Page
+## Basic (Compulsory): Category Filters + Product Detail Page
 
 Extend the existing store with category filtering and a product detail page.
 
@@ -18,10 +20,8 @@ Extend the existing store with category filtering and a product detail page.
 - Row of filter buttons above the product grid: All, Clothing, Accessories, Electronics, Stationery
 - Clicking a filter shows only matching products (the "All" tab shows everything)
 - Active tab uses a BEM modifier: `.filter-chip--active`
-- Conditional className using the `[array].filter(Boolean).join(' ')` pattern
 
 **2. Product Detail page (`/product/:id`)**
-- New route using React Router
 - Two-column CSS Grid layout: product image (left), details (right)
 - Breadcrumb navigation: `Store / Category / Product Name`
 - Product info: name, price, category badge, stock status badge
@@ -32,17 +32,24 @@ Extend the existing store with category filtering and a product detail page.
 **3. Skeleton loading states**
 - While products are loading, show placeholder cards with CSS shimmer animation
 - Use `@keyframes` for a gradient sweep effect
-- BEM class: `.item-card--skeleton`
 
-### New Components to Create
+### Components & BEM Classes (already in JSX)
 
 ```
 FilterBar                → .filter-bar, .filter-chip, .filter-chip--active
-ProductDetail            → .product-detail, .product-detail__image, .product-detail__info
-QuantitySelector         → .qty-selector, .qty-selector__btn, .qty-selector__value
-Breadcrumb               → .breadcrumb, .breadcrumb__item, .breadcrumb__separator
+ProductDetail            → .product-detail, .product-detail__grid, .product-detail__image,
+                           .product-detail__info, .product-detail__name, .product-detail__price,
+                           .product-detail__description, .product-detail__badges,
+                           .product-detail__actions, .product-detail__add-btn
+QuantitySelector         → .qty-selector, .qty-selector__btn, .qty-selector__btn--disabled,
+                           .qty-selector__value
+Breadcrumb               → .breadcrumb, .breadcrumb__item, .breadcrumb__separator,
+                           .breadcrumb__link, .breadcrumb__current
 StockBadge               → .badge, .badge--in-stock, .badge--low-stock, .badge--out-of-stock
-SkeletonCard             → .item-card--skeleton, .skeleton-line
+SkeletonCard             → .skeleton-card, .skeleton-card__image, .skeleton-card__body,
+                           .skeleton-card__line, .skeleton-card__line--short,
+                           .skeleton-card__line--medium, .skeleton-card__footer,
+                           .skeleton-shimmer
 ```
 
 ### CSS Requirements
@@ -72,7 +79,7 @@ SkeletonCard             → .item-card--skeleton, .skeleton-line
 
 ---
 
-## Advanced: Multi-Step Checkout Flow + Dark Mode
+## Advanced (Optional): Multi-Step Checkout Flow + Dark Mode
 
 Replace the current cart page with a full multi-step checkout experience and add dark mode support.
 
@@ -80,7 +87,7 @@ Replace the current cart page with a full multi-step checkout experience and add
 
 **1. Checkout stepper (4 steps)**
 - Step indicator bar: Cart → Shipping → Payment → Confirmation
-- Each step has 3 states with BEM modifiers: `--done`, `--active`, `--future`
+- Each step has states with BEM modifiers: `--done`, `--active`, `--upcoming`
 - Steps connected by a progress line (filled for completed steps)
 - Clicking a completed step navigates back to it
 
@@ -88,7 +95,7 @@ Replace the current cart page with a full multi-step checkout experience and add
 - Form with labeled inputs: Full Name, Email, City, Postal Code, Address, Phone
 - Two-column layout for City + Postal Code row using CSS Grid
 - Input focus states: border color change to `--color-primary`
-- Form validation: required fields with `.input--error` modifier and error message below
+- Form validation: required fields with `.form-group__input--error` modifier and error message below
 - "Back" and "Continue to Payment" buttons
 
 **3. Payment form (Step 3)**
@@ -114,16 +121,18 @@ Replace the current cart page with a full multi-step checkout experience and add
 - Shows line items, shipping cost, and total
 - Sticky positioning: `position: sticky; top: 76px;`
 
-### New Components to Create
+### Components & BEM Classes (already in JSX)
 
 ```
-CheckoutStepper          → .stepper, .stepper__step, .stepper__step--done/--active/--future
-                            .stepper__line, .stepper__line--filled
-ShippingForm             → .checkout-form, .form-group, .form-row (grid 2-col)
-                            .input, .input--error, .input__label, .input__error-msg
+CheckoutStepper          → .stepper, .stepper__item, .stepper__step, .stepper__circle,
+                           .stepper__label, .stepper__line, .stepper__line--filled
+ShippingForm             → .checkout-form, .checkout-form__title, .form-group,
+                           .form-group__label, .form-group__input,
+                           .form-group__input--error, .form-group__error, .form-row
 PaymentForm              → reuses .checkout-form + .form-group
-ConfirmationPage         → .confirmation, .confirmation__icon (animated), .confirmation__details
-ThemeToggle              → .theme-toggle, .theme-toggle__track, .theme-toggle__knob
+ConfirmationPage         → .confirmation, .confirmation__icon, .confirmation__details
+ThemeToggle              → .theme-toggle, .theme-toggle__icon, .theme-toggle__track,
+                           .theme-toggle__track--dark, .theme-toggle__knob
 ```
 
 ### CSS Requirements
@@ -174,7 +183,7 @@ ThemeToggle              → .theme-toggle, .theme-toggle__track, .theme-toggle_
 
 ## Submission
 
-1. Create branch `week-06/homework` from `week-06/lecture-01-livecoding`
+1. Work on your branch: `week-06/homework-basic` or `week-06/homework-advanced`
 2. Build your assignment in the `src/` directory
-3. Push and tag **@izzat** for review
-4. **Due: Monday**
+3. Push and tag **your mentor** for review
+4. **Due: before next lecture**
