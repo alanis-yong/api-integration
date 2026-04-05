@@ -811,6 +811,9 @@
 
 .filter-bar {
   /* TODO: Flexbox row with gap, margin below the heading */
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 .filter-chip {
@@ -819,16 +822,28 @@
      - border-radius for pill shape
      - padding, font-size, font-weight
      - cursor pointer, transition */
+     background-color: var(--color-surface);
+     border: var(--color-border) 1px solid;
+     border-radius: 17px;
+     padding: 8px 16px;
+     font-size: 13px;
+     font-weight: 600;
+     cursor: pointer;
+     transition: background 0.2s;
 }
 
 .filter-chip--active {
   /* TODO: Active state
      - var(--color-primary) background
      - white text, no border or primary border */
+     background-color: var(--color-primary);
+     color: white;
+     border: none;
 }
 
 .filter-chip:hover:not(.filter-chip--active) {
   /* TODO: Hover state for inactive chips */
+  background-color: var(--color-border);
 }
 
 
@@ -838,43 +853,74 @@
 
 .product-detail {
   /* TODO: Container with max-width and padding, like .cart-page */
+  max-width: 1200px;
+  padding: 24px 16px 48px;
+  margin: 0 auto;
+
 }
 
 .product-detail__grid {
   /* TODO: CSS Grid — 2 equal columns with gap
      Hint: display: grid, grid-template-columns: 1fr 1fr, gap */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
 }
 
-.product-detail__image {
+.product-detail__image{
   /* TODO: Rounded corners, overflow hidden, aspect-ratio or fixed height */
+  border-radius: 14px;
+  overflow: hidden;
+  aspect-ratio: 1/1;
 }
 
 .product-detail__info {
   /* TODO: Flex column with gap between children */
+  display: flex;
+  flex-direction: column;
 }
 
 .product-detail__badges {
   /* TODO: Flex row with gap for category + stock badges */
+  display: flex;
+  gap: 8px;
 }
 
 .product-detail__name {
   /* TODO: Large heading — font-size, font-weight, color, margin */
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #1a1a2e;
+  margin: 12px 0 8px;
 }
 
 .product-detail__price {
   /* TODO: Large price text in var(--color-primary) */
+  color: var(--color-primary);
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin: 0 0 8px;
 }
 
 .product-detail__description {
   /* TODO: Body text in var(--color-text-light), line-height */
+  color: var(--color-text-light);
+  line-height: 1.5;
+  margin: 0 0 20px;
 }
 
 .product-detail__qty-label {
   /* TODO: Small label above quantity selector */
+  font-size: 0.85rem;
+  font-weight: 600;
 }
 
 .product-detail__actions {
   /* TODO: Spacing above the quantity selector */
+  display: flex;
+  flex-direction: column;
+  padding: 12px 0;
+  margin-top: 20px;
 }
 
 .product-detail__add-btn {
@@ -882,26 +928,43 @@
      - var(--color-primary) background, white text
      - padding, border-radius, font-weight
      - transition, hover state */
+     background-color: var(--color-primary);
+     color: white;
+     padding: 12px 16px;
+     border-radius: 8px;
+     font-weight: 600;
+     transition: background 0.2s;
+     margin: 20px 0 0;
 }
 
 .product-detail__add-btn:hover {
   /* TODO: Darker hover background */
+  background-color: #4f46e5;
 }
 
 .product-detail__add-btn--added {
   /* TODO: Success state — green background */
+  background-color: var(--color-success);
 }
 
 .product-detail__add-btn:disabled {
   /* TODO: Disabled state — gray, no cursor */
+  background-color: #d1d5db;
+  cursor: not-allowed;
 }
 
 .product-detail__empty {
   /* TODO: Centered message for "not found" */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 
 .product-detail__back-link {
   /* TODO: Link styled in primary color */
+  color: var(--color-primary);
+  text-decoration: underline;
 }
 
 
@@ -910,22 +973,36 @@
 
 .badge {
   /* TODO: Inline pill — small font, padding, border-radius, font-weight */
+  display: inline-block;
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-weight: 600;
 }
 
 .badge--category {
   /* TODO: Outlined style — border + text color, no fill */
+  border: 1px solid var(--color-border);
+  color: var(--color-text-light);
+  background: transparent;
 }
 
 .badge--in-stock {
   /* TODO: Green background (var(--color-success)), white text */
+  background: var(--color-success);
+  color: white;
 }
 
 .badge--low-stock {
   /* TODO: Orange/amber background, white text */
+  background: var(--color-warning);
+  color: white;
 }
 
 .badge--out-of-stock {
   /* TODO: Red background (var(--color-error)), white text */
+  background: var(--color-error);
+  color: white;
 }
 
 
@@ -935,19 +1012,36 @@
 .qty-selector {
   /* TODO: Inline-flex row with border, border-radius
      Hint: display: inline-flex, align-items: center, var(--color-border) */
+   display: inline-flex;
+   align-items: center;
+   justify-content: space-between;
+   border: 1px solid var(--color-border);
+   border-radius: 8px;
+   background-color: white;
+   width: 120px;
 }
 
 .qty-selector__btn {
   /* TODO: Button with no background, padding, font-size
      - cursor pointer, transition */
+      background: none;
+      padding: 8px 12px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
 }
 
 .qty-selector__btn--disabled {
   /* TODO: Reduced opacity, no pointer */
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 .qty-selector__value {
   /* TODO: Centered number, min-width, font-weight */
+  min-width: 32px;
+  text-align: center;
+  font-weight: 600;
 }
 
 
@@ -956,18 +1050,31 @@
 
 .breadcrumb {
   /* TODO: Flex row, small font-size, margin-bottom, color */
+  display: flex;
+  font-size: 0.875rem;
+  margin-bottom: 12px;
+  color: var(--color-text);
 }
 
 .breadcrumb__separator {
   /* TODO: Muted color, horizontal margin */
+  color: var(--color-text-muted);
+  margin: 0 8px;
 }
 
 .breadcrumb__link {
   /* TODO: Link color, hover underline */
+   color: var(--color-text-light);
+}
+
+.breadcrumb__link:hover {
+  /* TODO: Link color, hover underline */
+  text-decoration: underline;
 }
 
 .breadcrumb__current {
   /* TODO: Current page — darker color, no link */
+  color: var(--color-text);
 }
 
 
@@ -979,49 +1086,70 @@
   /* TODO: Animate background-position from left to right
      0%   { background-position: -200px 0; }
      100% { background-position: calc(200px + 100%) 0; } */
+  0% { background-position: -200px 0; }
+  100% { background-position: calc(200px + 100%) 0; }
 }
 
 .skeleton-shimmer {
   /* TODO: Apply the shimmer animation
      - background: linear-gradient(90deg, #e0e0f0 25%, #f0f0f8 50%, #e0e0f0 75%)
      - background-size, animation */
+     background: linear-gradient(90deg, #e0e0f0 25%, #f0f0f8 50%, #e0e0f0 75%);
+     background-size: 200px 100%;
+     animation: shimmer 1.5s infinite;
 }
 
 .skeleton-card {
   /* TODO: Same size/shape as .item-card — rounded corners, shadow, overflow hidden */
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 
 .skeleton-card__image {
   /* TODO: Same aspect-ratio as .item-card__image */
+  aspect-ratio: 4 / 3;
 }
 
 .skeleton-card__body {
   /* TODO: Padding matching .item-card__body */
+  padding: 12px 16px;
 }
 
 .skeleton-card__line {
   /* TODO: Rounded rectangle placeholder for text
      - height, border-radius, margin-bottom */
+     height: 12px;
+     border-radius: 4px;
+     margin-bottom: 8px;
 }
 
 .skeleton-card__line--short {
   /* TODO: Shorter width (e.g. 40%) for tag placeholder */
+  width: 40%;
 }
 
 .skeleton-card__line--medium {
   /* TODO: Medium width (e.g. 70%) */
+  width: 70%;
 }
 
 .skeleton-card__line--price {
   /* TODO: Price placeholder width */
+  width: 50%;
 }
 
 .skeleton-card__line--btn {
   /* TODO: Button placeholder width + height */
+  width: 100%;
+  height: 36px;
 }
 
 .skeleton-card__footer {
   /* TODO: Flex row with space-between, like .item-card__footer */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 
@@ -1030,37 +1158,63 @@
 
 .related-products {
   /* TODO: Section with margin-top */
+  margin-top: 24px;
 }
 
 .related-products__title {
   /* TODO: Section heading */
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 12px;
 }
 
 .related-products__row {
   /* TODO: Flex row with gap, overflow-x auto for scroll on mobile */
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
 }
 
 .related-card {
   /* TODO: Small horizontal card — flex row, white bg, rounded, shadow
      - text-decoration none, transition on hover */
+  display: flex;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  transition: box-shadow 0.2s;
+  overflow: hidden;
 }
 
 .related-card__image {
   /* TODO: Small square image area */
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
 }
 
 .related-card__info {
   /* TODO: Flex column with name + price */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 12px 16px;
 }
 
 .related-card__name {
   /* TODO: Bold text, truncate with ellipsis */
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .related-card__price {
   /* TODO: Primary color, small font */
+  color: var(--color-primary);
+  font-size: 0.875rem;
 }
-
 
 /* ═══════════════════════════════════════════════════════════
    ADVANCED HOMEWORK: Dark Mode + Multi-Step Checkout
@@ -1085,11 +1239,23 @@
      --color-success: #34d399;
      --color-error: #f87171;
      --shadow-card: 0 2px 10px rgba(0, 0, 0, 0.3); */
+      --color-primary: #818cf8;
+     --color-primary-hover: #6366f1;
+     --color-text: #e2e8f0;
+     --color-text-light: #94a3b8;
+     --color-text-muted: #64748b;
+     --color-bg: #0f172a;
+     --color-surface: #1e293b;
+     --color-border: #334155;
+     --color-success: #34d399;
+     --color-error: #f87171;
+     --shadow-card: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 /* Smooth theme transition on body */
 body {
   /* TODO: Add transition for background-color and color (0.2s) */
+  transition: background-color 0.2s, color 0.2s;
 }
 
 
@@ -1097,10 +1263,18 @@ body {
 
 .theme-toggle {
   /* TODO: Button with no border/bg, flex row, gap, cursor pointer, align center */
+  border: none;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  cursor: pointer;
+  align-items: center;
+  background: none;
 }
 
 .theme-toggle__icon {
   /* TODO: Emoji size */
+  font-size: 15px;
 }
 
 .theme-toggle__track {
@@ -1109,10 +1283,17 @@ body {
      - var(--color-border) background
      - transition: background-color 0.2s
      - position relative (for knob) */
+     width: 40px;
+     height: 22px;
+     border-radius: 14px;
+     background: var(--color-border);
+     transition: background-color 0.2s;
+     position: relative;
 }
 
 .theme-toggle__track--dark {
   /* TODO: Active track — primary color background */
+  background-color: var(--color-primary);
 }
 
 .theme-toggle__knob {
@@ -1121,10 +1302,20 @@ body {
      - white background
      - transition: transform 0.2s
      - left: 3px normally */
+     position: absolute;
+     width: 16px;
+     height: 16px;
+     border-radius: 50%;
+     background-color: white;
+     left: 3px;
+     transition: transform 0.2s;
+     top: 3px;
+
 }
 
 .theme-toggle__track--dark .theme-toggle__knob {
   /* TODO: Slide knob to right — transform: translateX(18px) */
+  transform: translate(18px);
 }
 
 
@@ -1132,23 +1323,37 @@ body {
 
 .checkout {
   /* TODO: Container — max-width 1100px, margin auto, padding */
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
 }
 
 .checkout__grid {
   /* TODO: CSS Grid — two columns: 1fr 360px, gap 32px
      Hint: display: grid, grid-template-columns, gap, align-items: start */
+     display: grid;
+     grid-template-columns: 1fr 360px;
+    gap: 32px;
+    align-items: start;
 }
 
 .checkout__grid--centered {
   /* TODO: Single centered column (for confirmation page) */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .checkout__main {
   /* TODO: Min-width 0 to prevent grid blowout */
+  min-width: 0;
 }
 
 .checkout__sidebar {
   /* TODO: Sticky positioning — position: sticky, top: 76px */
+  position: sticky;
+  top: 76px;
 }
 
 
@@ -1158,48 +1363,82 @@ body {
 
 .stepper {
   /* TODO: Flexbox row, centered, margin-bottom, padding */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-bottom: 10px;
+  padding: 10px;
 }
 
 .stepper__item {
   /* TODO: Flex row with connector line + step, align center */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .stepper__step {
   /* TODO: Flex column, align center, gap between circle and label */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
 }
 
 .stepper__circle {
   /* TODO: Circle — width/height 36px, border-radius 50%
      - flex center for number/check
      - background varies by state (use modifier classes) */
+     width: 36px;
+     height: 36px;
+     border-radius: 50%;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     background: var(--color-border);
 }
 
 .stepper__step--done .stepper__circle {
   /* TODO: Primary background, white text, cursor pointer */
+  background: var(--color-primary);
+  color: white;
+  cursor: pointer;
 }
 
 .stepper__step--active .stepper__circle {
   /* TODO: Primary background, white text */
+  background: var(--color-primary);
+  color: white;
 }
 
 .stepper__step--future .stepper__circle {
   /* TODO: Border color, gray text, muted */
+  border: 2px solid var(--color-border);
+  color: var(--color-text-muted);
 }
 
 .stepper__number {
   /* TODO: Font size, weight for step number */
+  font-size: 16px;
+  font-weight: bold;
 }
 
 .stepper__check {
   /* TODO: Checkmark — white, bold */
+  color: white;
+  font-weight: bold;
 }
 
 .stepper__label {
   /* TODO: Small text below circle, font-weight varies by state */
+  font-size: 12px;
+  color: var(--color-text-muted);
 }
 
 .stepper__step--active .stepper__label {
   /* TODO: Primary color, bold */
+  color: var(--color-primary);
+  font-weight: bold;
 }
 
 .stepper__line {
@@ -1207,10 +1446,17 @@ body {
      - width ~80px, height 2px
      - var(--color-border) background
      - margin horizontal */
+     width: 80px;
+     height: 2px;
+     background: var(--color-border);
+     margin: 0 8px;
+     align-self: flex-start;
+     margin-top: 15px;
 }
 
 .stepper__line--filled {
   /* TODO: Filled line — primary color background */
+  background: var(--color-primary);
 }
 
 
@@ -1218,18 +1464,32 @@ body {
 
 .checkout-form {
   /* TODO: White card — background, border-radius, padding, shadow */
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .checkout-form__title {
   /* TODO: Form heading — font-size, weight, margin-bottom */
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 12px;
 }
 
 .form-group {
   /* TODO: Stack label + input + error vertically, margin-bottom */
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
 }
 
 .form-group__label {
   /* TODO: Small label — font-size, font-weight, color, margin-bottom */
+  font-size: 0.85rem;
+  font-weight: normal;
+  color: var(--color-text-muted);
+  margin-bottom: 4px;
 }
 
 .form-group__input {
@@ -1238,6 +1498,13 @@ body {
      - border: 1px solid var(--color-border)
      - border-radius, background var(--color-surface) or slightly different
      - transition: border-color 0.2s, box-shadow 0.2s */
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 1rem;
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      background: var(--color-surface);
+      transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .form-group__input:focus {
@@ -1245,43 +1512,68 @@ body {
      - border-color: var(--color-primary)
      - box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1)
      - outline: none */
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+      outline: none;
 }
 
 .form-group__input--error {
   /* TODO: Error state — border-color var(--color-error) */
+  border-color: var(--color-error);
 }
 
 .form-group__error {
   /* TODO: Error message — small, red text, margin-top */
+  font-size: 0.85rem;
+  color: var(--color-error);
+  margin-top: 4px;
 }
 
 .form-row {
   /* TODO: Two-column grid for side-by-side inputs
      Hint: display: grid, grid-template-columns: 1fr 1fr, gap: 16px */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
 }
 
 .checkout-form__actions {
   /* TODO: Flex row — space-between, margin-top */
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
 }
 
 .checkout-form__btn {
   /* TODO: Base button — padding, border-radius, font-weight, cursor, transition */
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
 }
 
 .checkout-form__btn--back {
   /* TODO: Ghost/outline — border, muted text, no fill */
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  background: transparent;
 }
 
 .checkout-form__btn--back:hover {
   /* TODO: Hover state */
+  background: var(--color-border);
 }
 
 .checkout-form__btn--next {
   /* TODO: Primary button — primary bg, white text */
+  background: var(--color-primary);
+  color: white;
 }
 
 .checkout-form__btn--next:hover {
   /* TODO: Darker hover bg */
+  background: color-mix(in srgb, var(--color-primary), black 10%);
 }
 
 
@@ -1289,10 +1581,19 @@ body {
 
 .confirmation {
   /* TODO: Centered layout — flex, justify center, padding-top */
+  display: flex;
+  justify-content: center;
+  padding-top: 24px;
 }
 
 .confirmation__card {
   /* TODO: Centered card — max-width, white bg, border-radius, shadow, padding, text-align center */
+  max-width: 400px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+  text-align: center;
 }
 
 .confirmation__icon {
@@ -1301,53 +1602,93 @@ body {
      - flex center for checkmark
      - margin auto + bottom margin
      - animation: scale-in 0.4s ease */
+     margin: auto;
+     margin-bottom: 16px;
+     animation: scale-in 0.4s ease;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--color-success);
+      display: flex;
+      align-items: center;
+      justify-content: center;
 }
 
 @keyframes scale-in {
   /* TODO: Scale from 0 to 1
      0%   { transform: scale(0); opacity: 0; }
      100% { transform: scale(1); opacity: 1; } */
+     0%   { transform: scale(0); opacity: 0; }
+     100% { transform: scale(1); opacity: 1; }
 }
 
 .confirmation__check {
   /* TODO: White checkmark — font-size, color white */
+  font-size: 24px;
+  color: white;
 }
 
 .confirmation__title {
   /* TODO: Large heading */
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 8px;
 }
 
 .confirmation__subtitle {
   /* TODO: Muted text below heading */
+  font-size: 1rem;
+  color: var(--color-text-muted);
 }
 
 .confirmation__details {
   /* TODO: Details section — border-top, padding-top, margin-top, text-align left */
+  border-top: 1px solid var(--color-border);
+  padding-top: 16px;
+  margin-top: 16px;
+  text-align: left;
 }
 
 .confirmation__row {
   /* TODO: Flex row — space-between, padding vertical, border-bottom */
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .confirmation__label {
   /* TODO: Muted label text */
+  color: var(--color-text-muted);
 }
 
 .confirmation__value {
   /* TODO: Bold value text */
+  font-weight: bold;
 }
 
 .confirmation__value--status {
   /* TODO: Special color for status (primary or success) */
+  color: var(--color-success);
 }
 
 .confirmation__btn {
   /* TODO: Full-width primary button — margin-top, padding, bg, text, border-radius
      - display block, text-align center, text-decoration none */
+     display: block;
+     text-align: center;
+     text-decoration: none;
+     background: var(--color-primary);
+     color: white;
+     padding: 12px 16px;
+     border-radius: 8px;
+     margin-top: 10px;
 }
 
 .confirmation__btn:hover {
   /* TODO: Hover state */
+  background: color-mix(in srgb, var(--color-primary), black 10%);
+  color: white;
 }
 
 
@@ -1356,13 +1697,24 @@ body {
 @media (max-width: 768px) {
   .checkout__grid {
     /* TODO: Stack to single column */
+    grid-template-columns: 1fr;
   }
 
   .stepper {
     /* TODO: Adjust for mobile — maybe smaller circles, hide labels */
+    .step {
+      width: 40px;
+      height: 40px;
+      font-size: 1rem;
+    }
+
+    .step__label {
+      display: none;
+    }
   }
 
   .form-row {
     /* TODO: Stack to single column */
+    grid-template-columns: 1fr;
   }
 }
