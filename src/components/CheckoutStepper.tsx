@@ -23,8 +23,13 @@ export function CheckoutStepper({ currentStep }: CheckoutStepperProps) {
           <div key={step.label} className="stepper__item">
             {/* Connector line before step (except first) */}
             {i > 0 && (
-              <div className={['stepper__line', done && 'stepper__line--filled'].filter(Boolean).join(' ')} />
-            )}
+  <div 
+    className={[
+      'stepper__line', 
+      (done || active) && 'stepper__line--filled' // Change this line!
+    ].filter(Boolean).join(' ')} 
+  />
+)}
 
             {/* Step circle + label */}
             <div className={`stepper__step ${modifier}`}>
