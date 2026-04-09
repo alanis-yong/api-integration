@@ -14,7 +14,7 @@ const formatPrice = (amount: number): string =>
 export function ItemCard({ item, onAddToCart }: ItemCardProps) {
 
   return (
-    <div className="item-card">
+    <div className="item-card" data-testid="item-card-test">
       <Link to={`/product/${item.id}`} className="item-card__image">
         <ItemImage id={item.id} name={item.name} />
       </Link>
