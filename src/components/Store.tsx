@@ -315,8 +315,26 @@ const Store = () => {
 };
 
 // --- STYLES ---
-const pageStyle: React.CSSProperties = { minHeight: '100vh', transition: '0.3s' };
-const navStyle: React.CSSProperties = { display: 'flex', justifyContent: 'space-between', padding: '0 40px', alignItems: 'center', height: '70px', borderBottom: '1px solid #ddd' };
+// const pageStyle: React.CSSProperties = { minHeight: '100vh', transition: '0.3s' };
+// const navStyle: React.CSSProperties = { display: 'flex', justifyContent: 'space-between', padding: '0 40px', alignItems: 'center', height: '70px', borderBottom: '1px solid #ddd' };
+// Inside Store.tsx
+const pageStyle: React.CSSProperties = { 
+  minHeight: '100vh', 
+  transition: '0.3s',
+  background: 'transparent', // Change from #f9f9f9 to transparent
+  color: '#fff'              // Force text to white
+};
+
+const navStyle: React.CSSProperties = { 
+  display: 'flex', 
+  justifyContent: 'space-between', 
+  padding: '0 40px', 
+  alignItems: 'center', 
+  height: '70px', 
+  borderBottom: '1px solid rgba(255,255,255,0.1)', // Light border instead of dark
+  background: 'rgba(0,0,0,0.4)',                   // Semi-transparent dark nav
+  backdropFilter: 'blur(10px)'                     // This creates the "Pro" glass effect
+};
 const navBtnStyle = { background: 'none', border: 'none', cursor: 'pointer', padding: '8px 12px', color: 'inherit' };
 const loginBtnStyle = { backgroundColor: '#3D46F5', color: 'white', padding: '10px 20px', borderRadius: '6px', border: 'none', cursor: 'pointer' };
 const modalOverlay: React.CSSProperties = { position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.8)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000 };
