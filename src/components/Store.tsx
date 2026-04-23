@@ -194,17 +194,23 @@ useEffect(() => {
     if (total <= 0) return;
 
     try {
-        const userId = getUserId();
-        const response = await fetch("https://checkout-api-6yuf.onrender.com/api/payments/token", {
-            method: "POST",
-            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}`, "Idempotency-Key": crypto.randomUUID() },
-            body: JSON.stringify({
-                user_id: userId, 
-                amount: Number(total.toFixed(2)),
-                currency: currency.toUpperCase(),
-                items: cart.map(i => ({ sku: i.sku, quantity: i.quantity }))
-            }),
-        });
+    const userId = getUserId();
+    const response = await fetch("https://checkout-api-6yuf.onrender.com/api/payments/token", {
+        method: "POST",
+        headers: { 
+            "Content-Type": "application/json", 
+            "Authorization": `Bearer ${token}`, 
+            "Idempotency-Key": crypto.randomUUID() 
+        },
+        body: JSON.stringify({
+            user_id: userId, 
+            amount: Number(total.toFixed(2)),
+            currency: currency.toUpperCase(),
+            language: lang, // Add this (it will be "en" or "cn")
+            items: cart.map(i => ({ sku: i.sku, quantity: i.quantity }))
+        }),
+    });
+    // ...
 
         const data = await response.json();
         if (data.token) {
