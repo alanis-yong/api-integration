@@ -32,7 +32,7 @@ useEffect(() => {
   if (view === 'inventory' && token) {
     const fetchInventory = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api/inventory`, {
+        const response = await fetch(`https://checkout-api-6yuf.onrender.com/api/inventory`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -75,7 +75,7 @@ useEffect(() => {
       if (!userId || products.length === 0) return;
 
       try {
-        const response = await fetch(`http://localhost:8080/api/cart?user_id=${userId}`);
+        const response = await fetch(`https://checkout-api-6yuf.onrender.com/api/cart?user_id=${userId}`);
         const dbCartItems: { sku: string; quantity: number }[] = await response.json();
 
         // Match SKUs from DB with full Product info from Catalog
@@ -98,7 +98,7 @@ useEffect(() => {
   const fetchProducts = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`http://localhost:8080/api/products?lang=${lang}`);
+      const response = await fetch(`https://checkout-api-6yuf.onrender.com/api/products?lang=${lang}`);
       const data = await response.json();
       
       // Xsolla often returns items inside 'items' or 'virtual_items'
@@ -146,7 +146,7 @@ useEffect(() => {
     const userId = getUserId();
     if (!userId) return;
 
-    await fetch("http://localhost:8080/api/cart/update", {
+    await fetch("https://checkout-api-6yuf.onrender.com/api/cart/update", {
       method: "POST",
       headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
       body: JSON.stringify({ user_id: userId, sku, delta })
@@ -177,7 +177,7 @@ useEffect(() => {
     const userId = getUserId();
     setCart([]);
     if (userId) {
-      await fetch(`http://localhost:8080/api/cart/clear?user_id=${userId}`, {
+      await fetch(`https://checkout-api-6yuf.onrender.com/api/cart/clear?user_id=${userId}`, {
         method: "DELETE",
         headers: { "Authorization": `Bearer ${token}` }
       });
@@ -195,7 +195,7 @@ useEffect(() => {
 
     try {
         const userId = getUserId();
-        const response = await fetch("http://localhost:8080/api/payments/token", {
+        const response = await fetch("https://checkout-api-6yuf.onrender.com/api/payments/token", {
             method: "POST",
             headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}`, "Idempotency-Key": crypto.randomUUID() },
             body: JSON.stringify({
