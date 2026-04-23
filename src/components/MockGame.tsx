@@ -1,119 +1,253 @@
-import React, { useState } from 'react';
-import Store from './Store'; // Your functional store
+// import React from 'react';
+// import { useNavigate } from 'react-router-dom';
+
+// const MockGame = () => {
+//   const navigate = useNavigate();
+
+//   return (
+//     <div style={appWrapper}>
+//       <div style={videoBackground} />
+//       <div style={scanlineOverlay} />
+
+//       <nav style={navbarStyle}>
+//         <div style={brand} onClick={() => navigate('/')}>
+//           THE ASTRUM GAME <span style={alphaTag}>V.0.4</span>
+//         </div>
+        
+//         <div style={navLinks}>
+//           <span style={activeLink}>HOME</span>
+//           <span style={navItem} onClick={() => navigate('/store')}>STORE</span>
+//         </div>
+//       </nav>
+
+//       <main style={mainContent}>
+//         <div style={homeScreen}>
+//           <h1 style={titleStyle}>ASTRUM</h1>
+//           <p style={description}>Enter the gate. Claim your gilded legacy.</p>
+          
+//           <div style={menuOptions}>
+//             <button style={disabledBtn}>START MISSION (LOCKED)</button>
+//             <button style={activeBtn} onClick={() => navigate('/store')}>
+//               VISIT THE MERCHANT
+//             </button>
+//           </div>
+//         </div>
+//       </main>
+
+//       <footer style={footerStyle}>
+//         <div style={footerLeft}>
+//           <span>REGION: ASIA_NORTH</span>
+//           <span>LATENCY: 18ms</span>
+//         </div>
+//         <div style={footerRight}>
+//           <span>&copy; 2026 XSOLLA SCHOOL PROJECT</span>
+//         </div>
+//       </footer>
+//     </div>
+//   );
+// };
+
+// // --- STYLES (Locked for Full Screen) ---
+// const appWrapper: React.CSSProperties = {
+//   height: '100vh', width: '100%', background: '#020205',
+//   color: '#f4ebd0', fontFamily: '"Cinzel", serif',
+//   overflow: 'hidden', position: 'fixed', top: 0, left: 0
+// };
+// const videoBackground: React.CSSProperties = {
+//   position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+//   backgroundImage: `url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=2000')`,
+//   backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.3, zIndex: 1
+// };
+// const scanlineOverlay: React.CSSProperties = {
+//   position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+//   background: 'linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), radial-gradient(circle, transparent 20%, #000 100%)',
+//   zIndex: 2, pointerEvents: 'none'
+// };
+// const navbarStyle: React.CSSProperties = {
+//   position: 'relative', zIndex: 10, height: '90px', display: 'flex', 
+//   justifyContent: 'space-between', alignItems: 'center', padding: '0 60px',
+//   borderBottom: '1px solid rgba(212, 175, 55, 0.2)', background: 'rgba(0,0,0,0.8)',
+//   backdropFilter: 'blur(10px)'
+// };
+// const brand: React.CSSProperties = { fontSize: '20px', fontWeight: 'bold', letterSpacing: '4px', color: '#d4af37', cursor: 'pointer' };
+// const alphaTag = { color: '#8d99ae', fontSize: '12px', letterSpacing: '1px' };
+// const navLinks = { display: 'flex', gap: '40px', alignItems: 'center' };
+// const navItem: React.CSSProperties = { fontSize: '14px', letterSpacing: '2px', cursor: 'pointer', color: '#8d99ae' };
+// const activeLink = { ...navItem, color: '#d4af37', borderBottom: '1px solid #d4af37' };
+// const mainContent: React.CSSProperties = { position: 'relative', zIndex: 10, height: 'calc(100vh - 90px)', padding: '40px 60px' };
+// const homeScreen: React.CSSProperties = { paddingTop: '10vh', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' };
+// const titleStyle: React.CSSProperties = { fontSize: '120px', margin: 0, color: '#d4af37', letterSpacing: '20px' };
+// const description = { fontSize: '20px', color: '#8d99ae', letterSpacing: '4px', marginBottom: '40px' };
+// const menuOptions = { display: 'flex', flexDirection: 'column' as const, gap: '15px', width: '350px' };
+// const activeBtn = { padding: '18px', background: '#d4af37', color: '#000', border: 'none', cursor: 'pointer', fontWeight: 'bold', letterSpacing: '2px' };
+// const disabledBtn = { padding: '18px', background: 'rgba(255,255,255,0.03)', color: 'rgba(255,255,255,0.2)', border: '1px solid #5e503f', cursor: 'not-allowed' };
+// const footerStyle: React.CSSProperties = { position: 'absolute', bottom: 0, width: '100%', height: '60px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 60px', fontSize: '10px', color: 'rgba(141, 153, 174, 0.4)', zIndex: 10, background: 'rgba(0,0,0,0.5)', boxSizing: 'border-box' };
+// const footerLeft = { display: 'flex', gap: '30px' };
+// const footerRight = { textAlign: 'right' as const };
+
+// export default MockGame;
+
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Widget } from '@xsolla/login-sdk';
+
+const LOGIN_PROJECT_ID = "a8a622df-4f2f-463f-9927-0ebc3104d68d";
+const REDIRECT_URI = "http://localhost:5173";
 
 const MockGame = () => {
-  const [showStore, setShowStore] = useState(false);
+  const navigate = useNavigate();
+
+  // --- AUTH STATE ---
+  const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
+  const [showWidget, setShowWidget] = useState(false);
+  const xlInstance = useRef<any>(null);
+
+  // --- FIX: CAPTURE JWT FROM URL REDIRECT ---
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const jwt = urlParams.get('token');
+
+    if (jwt) {
+      console.log("🎟️ Token captured from URL redirect!");
+      
+      // Save to storage and update state
+      localStorage.setItem('token', jwt);
+      setToken(jwt);
+
+      // Clean the URL (removes the ?token=... part so it looks professional)
+      window.history.replaceState({}, document.title, '/');
+    }
+  }, []);
+
+  // --- XSOLLA LOGIN WIDGET EFFECT ---
+  useEffect(() => {
+    if (!showWidget) return;
+
+    const initWidget = () => {
+      if (!xlInstance.current) {
+        xlInstance.current = new Widget({
+          projectId: LOGIN_PROJECT_ID,
+          callbackUrl: REDIRECT_URI,
+          preferredLocale: 'en_US',
+          // Force the response to be a token in the URL fragment/query
+          response_type: 'token', 
+        } as any);
+
+        xlInstance.current.mount('xsolla-login-widget');
+
+        // Backup: handle in-page auth if the redirect doesn't trigger
+        xlInstance.current.on('auth', (data: any) => {
+          console.log("Xsolla Auth Payload:", data);
+          const receivedToken = data.token || data.access_token;
+          
+          if (receivedToken) {
+            localStorage.setItem('token', receivedToken);
+            setToken(receivedToken);
+            setShowWidget(false);
+          }
+        });
+      }
+    };
+
+    const timer = setTimeout(initWidget, 200);
+    return () => {
+      clearTimeout(timer);
+      xlInstance.current = null;
+    };
+  }, [showWidget]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setToken(null);
+  };
 
   return (
     <div style={appWrapper}>
-      {/* 1. THE VISUAL "GAME" LAYER (Non-functional background) */}
       <div style={videoBackground} />
       <div style={scanlineOverlay} />
 
-      {/* 2. THE GAME HUD (Top Bar) */}
-      <nav style={topHud}>
-        <div style={brand}>THE ASTRUM GAME <span style={alphaTag}>V.0.4</span></div>
-        <div style={stats}>
-          <div style={statItem}><span style={label}>REGION</span><br/>ASIA_NORTH</div>
-          <div style={statItem}><span style={label}>LATENCY</span><br/>18ms</div>
-          {/* This represents where a user would see their balance after buying something */}
-          <div style={statItem}><span style={label}>CREDITS</span><br/>5,400 💎</div>
+      <nav style={navbarStyle}>
+        <div style={brand} onClick={() => navigate('/')}>
+          THE ASTRUM GAME <span style={alphaTag}>V.0.4</span>
+        </div>
+        
+        <div style={navLinks}>
+          <span style={activeLink}>HOME</span>
+          <span style={navItem} onClick={() => navigate('/store')}>STORE</span>
+          <button 
+            onClick={token ? handleLogout : () => setShowWidget(true)} 
+            style={token ? logoutBtn : goldBtn}
+          >
+            {token ? "LOGOUT" : "LOGIN"}
+          </button>
         </div>
       </nav>
 
-      {/* 3. THE MAIN VIEW */}
       <main style={mainContent}>
-        {!showStore ? (
-          /* THIS IS THE "MOCK GAME" HOME SCREEN */
-          <div style={homeScreen}>
-            <h1 style={titleStyle}>THE ASTRUM GAME</h1>
-            <p style={description}>Enter the grid. Fight for the future.</p>
-            
-            <div style={menuOptions}>
-              {/* These buttons are "Mock" - they don't do anything */}
-              <button style={disabledBtn}>START MISSION (LOCKED)</button>
-              <button style={disabledBtn}>CHARACTER CUSTOMIZATION</button>
-              
-              {/* THIS IS THE REAL FUNCTIONAL BUTTON */}
-              <button style={activeBtn} onClick={() => setShowStore(true)}>
-                OPEN STOREFRONT
-              </button>
-            </div>
+        <div style={homeScreen}>
+          <h1 style={titleStyle}>ASTRUM</h1>
+          <p style={description}>
+            {token ? "Welcome back, Traveler. Your legacy awaits." : "Enter the gate. Claim your gilded legacy."}
+          </p>
+          
+          <div style={menuOptions}>
+            <button style={token ? activeBtn : disabledBtn}>
+                {token ? "RESUME MISSION" : "LOGIN TO UNLOCK MISSION"}
+            </button>
+            <button style={activeBtn} onClick={() => navigate('/store')}>
+              VISIT THE MERCHANT
+            </button>
           </div>
-        ) : (
-          /* THIS IS YOUR REAL FUNCTIONAL STORE */
-          <div style={storeWrapper}>
-            <div style={storeHeader}>
-              <button style={backBtn} onClick={() => setShowStore(false)}>
-                ← EXIT TO MAIN MENU
-              </button>
-              <h2 style={storeTitle}>EQUIPMENT & APPAREL</h2>
-            </div>
-            
-            {/* Your Store.tsx component with your Paystation/Login logic */}
-            <div style={storeContainer}>
-              <Store />
-            </div>
-          </div>
-        )}
+        </div>
       </main>
 
-      {/* 4. BOTTOM DECORATION */}
+      {/* LOGIN MODAL */}
+      {showWidget && (
+        <div style={modalOverlay}>
+          <div style={modalContent}>
+             <div id="xsolla-login-widget" style={{ width: '400px', height: '550px' }}></div>
+             <button onClick={() => setShowWidget(false)} style={closeBtn}>CLOSE</button>
+          </div>
+        </div>
+      )}
+
       <footer style={footerStyle}>
-        <span>&copy; 2026 XSOLLA SCHOOL PROJECT</span>
-        <span>ENCRYPTED CONNECTION_SECURE PAYMENTS</span>
+        <div style={footerLeft}>
+          <span>REGION: ASIA_NORTH</span>
+          <span>LATENCY: 18ms</span>
+        </div>
+        <div style={footerRight}>
+          <span>&copy; 2026 XSOLLA SCHOOL PROJECT</span>
+        </div>
       </footer>
     </div>
   );
 };
 
 // --- STYLES ---
-const appWrapper: React.CSSProperties = {
-  height: '100vh', width: '100vw', background: '#020205',
-  color: '#fff', fontFamily: '"Arial", sans-serif',
-  overflow: 'hidden', position: 'relative'
-};
-
-const videoBackground: React.CSSProperties = {
-  position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
-  backgroundImage: `url('https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=2000')`,
-  backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.3, zIndex: 1
-};
-
-const scanlineOverlay: React.CSSProperties = {
-  position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
-  background: 'linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03))',
-  backgroundSize: '100% 3px, 3px 100%', zIndex: 2, pointerEvents: 'none'
-};
-
-const topHud: React.CSSProperties = {
-  position: 'relative', zIndex: 10, height: '80px', display: 'flex', 
-  justifyContent: 'space-between', alignItems: 'center', padding: '0 50px',
-  borderBottom: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.5)'
-};
-
-const brand = { fontSize: '18px', fontWeight: 'bold', letterSpacing: '2px' };
-const alphaTag = { color: '#3D46F5', fontSize: '12px' };
-const stats = { display: 'flex', gap: '30px' };
-const statItem = { textAlign: 'right' as const, fontSize: '14px' };
-const label = { fontSize: '10px', color: 'rgba(255,255,255,0.4)', letterSpacing: '1px' };
-
-const mainContent: React.CSSProperties = { position: 'relative', zIndex: 10, height: 'calc(100vh - 80px)', padding: '50px' };
-
-const homeScreen = { marginTop: '10vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'};
-const titleStyle = { fontSize: '80px', lineHeight: '0.9', margin: '0 0 10px 0', textShadow: '0 0 30px rgba(61,70,245,0.8)' };
-const description = { fontSize: '18px', color: 'rgba(255,255,255,0.6)', marginBottom: '40px' };
-
-const menuOptions = { display: 'flex', flexDirection: 'column' as const, gap: '15px', maxWidth: '350px' };
-const activeBtn = { padding: '15px', background: '#3D46F5', color: '#fff', border: 'none', cursor: 'pointer', fontFamily: '"Arial"', fontWeight: 'bold', letterSpacing: '1px' };
-const disabledBtn = { padding: '15px', background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.3)', border: '1px solid rgba(255,255,255,0.1)', fontFamily: '"Arial"', cursor: 'pointer' };
-
-const storeWrapper = { height: '100%' };
-const storeHeader = { display: 'flex', alignItems: 'center', gap: '30px', marginBottom: '30px' };
-const backBtn = { background: 'none', border: 'none', color: '#3D46F5', cursor: 'pointer', fontFamily: '"Arial"', fontWeight: 'bold' };
-const storeTitle = { margin: 0, fontSize: '24px', letterSpacing: '2px' };
-const storeContainer = { height: '80%', overflowY: 'auto' as const };
-
-const footerStyle: React.CSSProperties = { position: 'absolute', bottom: '20px', width: '100%', display: 'flex', justifyContent: 'space-between', padding: '0 50px', fontSize: '10px', color: 'rgba(255,255,255,0.2)', zIndex: 10, boxSizing: 'border-box' };
+const appWrapper: React.CSSProperties = { height: '100vh', width: '100%', background: '#020205', color: '#f4ebd0', fontFamily: '"Cinzel", serif', overflow: 'hidden', position: 'fixed', top: 0, left: 0 };
+const videoBackground: React.CSSProperties = { position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundImage: `url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=2000')`, backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.3, zIndex: 1 };
+const scanlineOverlay: React.CSSProperties = { position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), radial-gradient(circle, transparent 20%, #000 100%)', zIndex: 2, pointerEvents: 'none' };
+const navbarStyle: React.CSSProperties = { position: 'relative', zIndex: 10, height: '90px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 60px', borderBottom: '1px solid rgba(212, 175, 55, 0.2)', background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(10px)' };
+const brand: React.CSSProperties = { fontSize: '20px', fontWeight: 'bold', letterSpacing: '4px', color: '#d4af37', cursor: 'pointer' };
+const alphaTag = { color: '#8d99ae', fontSize: '12px', letterSpacing: '1px' };
+const navLinks = { display: 'flex', gap: '40px', alignItems: 'center' };
+const navItem: React.CSSProperties = { fontSize: '14px', letterSpacing: '2px', cursor: 'pointer', color: '#8d99ae' };
+const activeLink = { ...navItem, color: '#d4af37', borderBottom: '1px solid #d4af37' };
+const mainContent: React.CSSProperties = { position: 'relative', zIndex: 10, height: 'calc(100vh - 90px)', padding: '40px 60px' };
+const homeScreen: React.CSSProperties = { paddingTop: '10vh', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' };
+const titleStyle: React.CSSProperties = { fontSize: '120px', margin: 0, color: '#d4af37', letterSpacing: '20px' };
+const description = { fontSize: '20px', color: '#8d99ae', letterSpacing: '4px', marginBottom: '40px' };
+const menuOptions = { display: 'flex', flexDirection: 'column' as const, gap: '15px', width: '350px' };
+const activeBtn = { padding: '18px', background: '#d4af37', color: '#000', border: 'none', cursor: 'pointer', fontWeight: 'bold', letterSpacing: '2px', fontFamily: '"Cinzel", serif' };
+const goldBtn = { ...activeBtn, padding: '10px 20px', fontSize: '14px' };
+const logoutBtn = { ...goldBtn, background: 'transparent', color: '#d4af37', border: '1px solid #d4af37' };
+const disabledBtn = { padding: '18px', background: 'rgba(255,255,255,0.03)', color: 'rgba(255,255,255,0.2)', border: '1px solid #5e503f', cursor: 'not-allowed', fontFamily: '"Cinzel", serif' };
+const modalOverlay: React.CSSProperties = { position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.9)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000 };
+const modalContent: React.CSSProperties = { background: '#1a1a1a', padding: '20px', borderRadius: '8px', border: '1px solid #d4af37' };
+const closeBtn = { width: '100%', marginTop: '10px', background: '#333', color: '#fff', border: 'none', padding: '10px', cursor: 'pointer', fontFamily: '"Cinzel", serif' };
+const footerStyle: React.CSSProperties = { position: 'absolute', bottom: 0, width: '100%', height: '60px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 60px', fontSize: '10px', color: 'rgba(141, 153, 174, 0.4)', zIndex: 10, background: 'rgba(0,0,0,0.5)', boxSizing: 'border-box' };
+const footerLeft = { display: 'flex', gap: '30px' };
+const footerRight = { textAlign: 'right' as const };
 
 export default MockGame;

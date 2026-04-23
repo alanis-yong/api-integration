@@ -1,12 +1,16 @@
-import { createRoot } from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
-import "./index.css";
-// import Store from "./components/Store";
-import MockGame from "./components/MockGame";
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App'; // Import App which contains your Routes
+import './index.css';
 
-createRoot(document.getElementById("root")!).render(
-  <BrowserRouter>
-  <MockGame/>
-    {/* <Store /> */}
-  </BrowserRouter>
+const container = document.getElementById('root');
+const root = createRoot(container!);
+
+root.render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>
 );
