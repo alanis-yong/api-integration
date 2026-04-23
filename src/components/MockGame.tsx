@@ -92,7 +92,7 @@ import { useNavigate } from 'react-router-dom';
 import { Widget } from '@xsolla/login-sdk';
 
 const LOGIN_PROJECT_ID = "a8a622df-4f2f-463f-9927-0ebc3104d68d";
-const REDIRECT_URI = "http://localhost:5173";
+const REDIRECT_URI = "https://xsolla-alanis-gamestore.vercel.app";
 
 const MockGame = () => {
   const navigate = useNavigate();
