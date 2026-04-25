@@ -275,65 +275,62 @@ useEffect(() => {
   {isLoading ? <p style={sectionTitle}>LOADING STORE...</p> : 
     view === 'home' ? (
       /* --- HOME VIEW (Treasures) --- */
-      <div>
-        <h1 style={sectionTitle}>AVAILABLE TREASURES</h1>
-        <div style={gridStyle}>
-          {products.map(item => (
-            <div key={item.sku} style={cardStyle}>
-              <div>
-                {item.image_url && <img src={item.image_url} alt={item.name_en} style={itemImage} />}
-                <h3 style={itemTitle}>
-  {details ? (lang === 'en' ? details.name_en : details.name_cn) : `Item: ${invItem.sku}`}
-</h3>
-                <p style={descStyle}>{lang === 'en' ? item.description_en : item.description_cn}</p>
-                <p style={priceStyle}>
-                  {currency === 'usd' ? `$${Number(item.price_usd).toFixed(2)}` : `RM${Number(item.price_myr).toFixed(2)}`}
-                </p>
-              </div>
-              <button onClick={() => addToCart(item)} style={buyBtn}>ADD TO CART</button>
-            </div>
-          ))}
+<div>
+  <h1 style={sectionTitle}>AVAILABLE TREASURES</h1>
+  <div style={gridStyle}>
+    {products.map(item => (
+      <div key={item.sku} style={cardStyle}>
+        <div>
+          {item.image_url && <img src={item.image_url} alt={item.name_en} style={itemImage} />}
+          {/* Use 'item' here, not 'details' */}
+          <h3 style={itemTitle}>
+            {lang === 'en' ? item.name_en : item.name_cn}
+          </h3>
+          <p style={descStyle}>{lang === 'en' ? item.description_en : item.description_cn}</p>
+          <p style={priceStyle}>
+            {currency === 'usd' ? `$${Number(item.price_usd).toFixed(2)}` : `RM${Number(item.price_myr).toFixed(2)}`}
+          </p>
         </div>
+        <button onClick={() => addToCart(item)} style={buyBtn}>ADD TO CART</button>
       </div>
+    ))}
+  </div>
+</div>
     ) : view === 'inventory' ? (
-      /* --- INVENTORY VIEW (New) --- */
+      /* --- INVENTORY VIEW --- */
       <div>
         <h1 style={sectionTitle}>YOUR ARMORY</h1>
         {inventory.length === 0 ? (
           <p style={{color: '#8d99ae', textAlign: 'center'}}>Your armory is currently empty.</p>
         ) : (
           <div style={gridStyle}>
-            {inventory.map(invItem => {
-  // 1. Try to find the matching product details
-  const details = products.find(p => p.sku === invItem.sku);
+            {inventory.map((invItem) => {
+              // 1. Define 'details' INSIDE the map function
+              const details = products.find(p => p.sku === invItem.sku);
 
-  return (
-    <div key={invItem.sku} style={cardStyle}>
-      <div>
-        {/* Use ?. and a fallback image */}
-        <img 
-          src={details?.image_url || 'https://via.placeholder.com/120?text=Item'} 
-          alt="owned" 
-          style={itemImage} 
-        />
-        
-        <h3 style={itemTitle}>
-          {/* Fallback to SKU if name isn't found */}
-          {details ? (lang === 'en' ? details.name_en : details.name_cn) : `SKU: ${invItem.sku}`}
-        </h3>
-
-        <p style={{...descStyle, minHeight: 'auto'}}>
-          {details ? (lang === 'en' ? details.description_en : details.description_cn) : "Details loading..."}
-        </p>
-
-        <p style={priceStyle}>
-          OWNED: <span style={{color: '#f4ebd0'}}>{invItem.quantity}</span>
-        </p>
-      </div>
-      <button style={{...buyBtn, opacity: 0.5, cursor: 'default'}}>COLLECTED</button>
-    </div>
-  );
-})}
+              return (
+                <div key={invItem.sku} style={cardStyle}>
+                  <div>
+                    {/* 2. Use Optional Chaining (?.) to prevent build errors */}
+                    <img 
+                      src={details?.image_url || 'https://via.placeholder.com/120?text=Item'} 
+                      alt="owned" 
+                      style={itemImage} 
+                    />
+                    <h3 style={itemTitle}>
+                      {details ? (lang === 'en' ? details.name_en : details.name_cn) : `Item: ${invItem.sku}`}
+                    </h3>
+                    <p style={{...descStyle, minHeight: 'auto'}}>
+                      {details ? (lang === 'en' ? details.description_en : details.description_cn) : "Acquired from the Treasury"}
+                    </p>
+                    <p style={priceStyle}>
+                      OWNED: <span style={{color: '#f4ebd0'}}>{invItem.quantity}</span>
+                    </p>
+                  </div>
+                  <button style={{...buyBtn, opacity: 0.5, cursor: 'default'}}>COLLECTED</button>
+                </div>
+              );
+            })}
           </div>
         )}
       </div>
