@@ -32,7 +32,18 @@ useEffect(() => {
   if (view === 'inventory' && token) {
     const fetchInventory = async () => {
       try {
-        const response = await fetch(`https://checkout-api-6yuf.onrender.com/api/inventory`, {
+        // 1. GET THE USER ID (Choose the method you use to store it)
+        // Option A: If you saved it separately in localStorage during login:
+        const userId = localStorage.getItem('user_id'); 
+
+        // 2. CHECK IF IT EXISTS
+        if (!userId) {
+          console.error("User ID not found in storage");
+          return;
+        }
+
+        // 3. NOW THE FETCH WILL WORK
+        const response = await fetch(`https://checkout-api-6yuf.onrender.com/api/inventory?user_id=${userId}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -210,7 +221,6 @@ useEffect(() => {
             items: cart.map(i => ({ sku: i.sku, quantity: i.quantity }))
         }),
     });
-    // ...
 
         const data = await response.json();
         if (data.token) {
