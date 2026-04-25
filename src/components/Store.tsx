@@ -152,7 +152,6 @@ useEffect(() => {
   fetchProducts();
 }, [lang]);
 
-  // --- 3. SYNC ACTIONS TO BACKEND ---
   const syncToBackend = async (sku: string, delta: number) => {
     const userId = getUserId();
     if (!userId) return;
