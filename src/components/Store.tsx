@@ -282,7 +282,9 @@ useEffect(() => {
             <div key={item.sku} style={cardStyle}>
               <div>
                 {item.image_url && <img src={item.image_url} alt={item.name_en} style={itemImage} />}
-                <h3 style={itemTitle}>{lang === 'en' ? item.name_en : item.name_cn}</h3>
+                <h3 style={itemTitle}>
+  {details ? (lang === 'en' ? details.name_en : details.name_cn) : `Item: ${invItem.sku}`}
+</h3>
                 <p style={descStyle}>{lang === 'en' ? item.description_en : item.description_cn}</p>
                 <p style={priceStyle}>
                   {currency === 'usd' ? `$${Number(item.price_usd).toFixed(2)}` : `RM${Number(item.price_myr).toFixed(2)}`}
@@ -302,26 +304,36 @@ useEffect(() => {
         ) : (
           <div style={gridStyle}>
             {inventory.map(invItem => {
-              // Match backend SKU with catalog details for image/names
-              const details = products.find(p => p.sku === invItem.sku);
-              return (
-                <div key={invItem.sku} style={cardStyle}>
-                  <div>
-                    {details?.image_url && <img src={details.image_url} alt="owned" style={itemImage} />}
-                    <h3 style={itemTitle}>
-                      {lang === 'en' ? details?.name_en : details?.name_cn || invItem.sku}
-                    </h3>
-                    <p style={{...descStyle, minHeight: 'auto'}}>
-                      {lang === 'en' ? details?.description_en : details?.description_cn}
-                    </p>
-                    <p style={priceStyle}>
-                      OWNED: <span style={{color: '#f4ebd0'}}>{invItem.quantity}</span>
-                    </p>
-                  </div>
-                  <button style={{...buyBtn, opacity: 0.5, cursor: 'default'}}>COLLECTED</button>
-                </div>
-              );
-            })}
+  // 1. Try to find the matching product details
+  const details = products.find(p => p.sku === invItem.sku);
+
+  return (
+    <div key={invItem.sku} style={cardStyle}>
+      <div>
+        {/* Use ?. and a fallback image */}
+        <img 
+          src={details?.image_url || 'https://via.placeholder.com/120?text=Item'} 
+          alt="owned" 
+          style={itemImage} 
+        />
+        
+        <h3 style={itemTitle}>
+          {/* Fallback to SKU if name isn't found */}
+          {details ? (lang === 'en' ? details.name_en : details.name_cn) : `SKU: ${invItem.sku}`}
+        </h3>
+
+        <p style={{...descStyle, minHeight: 'auto'}}>
+          {details ? (lang === 'en' ? details.description_en : details.description_cn) : "Details loading..."}
+        </p>
+
+        <p style={priceStyle}>
+          OWNED: <span style={{color: '#f4ebd0'}}>{invItem.quantity}</span>
+        </p>
+      </div>
+      <button style={{...buyBtn, opacity: 0.5, cursor: 'default'}}>COLLECTED</button>
+    </div>
+  );
+})}
           </div>
         )}
       </div>
