@@ -15,6 +15,11 @@ interface Item {
 }
 interface CartItem extends Item { quantity: number; }
 
+interface InventoryItem {
+  sku: string;
+  quantity: number;
+}
+
 const Store = () => {
   const navigate = useNavigate();
 
@@ -26,47 +31,29 @@ const Store = () => {
   const [lang, setLang] = useState<'en' | 'cn'>('en');
   const [currency, setCurrency] = useState<'usd' | 'myr'>('usd');
   const [isLoading, setIsLoading] = useState(true);
-const [inventory, setInventory] = useState<{sku: string, quantity: number}[]>([]);
+  const [inventory, setInventory] = useState<InventoryItem[]>([]);
+  const [isInvLoading, setIsInvLoading] = useState(false);
 
 useEffect(() => {
-  if (view === 'inventory' && token) {
     const fetchInventory = async () => {
+      const userId = getUserId();
+      if (!userId || view !== 'inventory') return;
+
       try {
-        // 1. GET THE USER ID (Choose the method you use to store it)
-        // Option A: If you saved it separately in localStorage during login:
-        const userId = localStorage.getItem('user_id'); 
-
-        // 2. CHECK IF IT EXISTS
-        if (!userId) {
-          console.error("User ID not found in storage");
-          return;
-        }
-
-        // 3. NOW THE FETCH WILL WORK
-        const response = await fetch(`https://checkout-api-6yuf.onrender.com/api/inventory?user_id=${userId}`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
+        setIsInvLoading(true);
+        // Note: Using localhost or your Render URL depending on where you're testing
+        const response = await fetch(`https://checkout-api-6yuf.onrender.com/api/inventory?user_id=${userId}`);
         const data = await response.json();
-        
-        // FIX: If data is already an array, use it directly. 
-        // If it's an object with an 'items' key, use that.
-        if (Array.isArray(data)) {
-          setInventory(data);
-        } else if (data && data.items) {
-          setInventory(data.items);
-        } else {
-          setInventory([]);
-        }
+        setInventory(Array.isArray(data) ? data : []);
       } catch (err) {
-        console.error("Failed to fetch inventory:", err);
-        setInventory([]);
+        console.error("Error loading inventory:", err);
+      } finally {
+        setIsInvLoading(false);
       }
     };
+
     fetchInventory();
-  }
-}, [view, token]);
+  }, [view, token]);
 
   // Helper to get UserID from JWT
   const getUserId = () => {
@@ -296,44 +283,44 @@ useEffect(() => {
   </div>
 </div>
     ) : view === 'inventory' ? (
-      /* --- INVENTORY VIEW --- */
-      <div>
-        <h1 style={sectionTitle}>YOUR ARMORY</h1>
-        {inventory.length === 0 ? (
-          <p style={{color: '#8d99ae', textAlign: 'center'}}>Your armory is currently empty.</p>
-        ) : (
-          <div style={gridStyle}>
-            {inventory.map((invItem) => {
-              // 1. Define 'details' INSIDE the map function
-              const details = products.find(p => p.sku === invItem.sku);
+  /* --- INVENTORY VIEW --- */
+  <div>
+    <h1 style={sectionTitle}>YOUR ARMORY</h1>
+    {isInvLoading ? (
+      <p style={sectionTitle}>OPENING THE VAULT...</p>
+    ) : inventory.length === 0 ? (
+      <p style={{ color: '#8d99ae', textAlign: 'center' }}>Your armory is currently empty.</p>
+    ) : (
+      <div style={gridStyle}>
+        {inventory.map((invItem) => {
+          const details = products.find(p => p.sku === invItem.sku);
 
               return (
-                <div key={invItem.sku} style={cardStyle}>
-                  <div>
-                    {/* 2. Use Optional Chaining (?.) to prevent build errors */}
-                    <img 
-                      src={details?.image_url || 'https://via.placeholder.com/120?text=Item'} 
-                      alt="owned" 
-                      style={itemImage} 
-                    />
-                    <h3 style={itemTitle}>
-                      {details ? (lang === 'en' ? details.name_en : details.name_cn) : `Item: ${invItem.sku}`}
-                    </h3>
-                    <p style={{...descStyle, minHeight: 'auto'}}>
-                      {details ? (lang === 'en' ? details.description_en : details.description_cn) : "Acquired from the Treasury"}
-                    </p>
-                    <p style={priceStyle}>
-                      OWNED: <span style={{color: '#f4ebd0'}}>{invItem.quantity}</span>
-                    </p>
-                  </div>
-                  <button style={{...buyBtn, opacity: 0.5, cursor: 'default'}}>COLLECTED</button>
-                </div>
-              );
-            })}
-          </div>
-        )}
+            <div key={invItem.sku} style={cardStyle}>
+              <div>
+                <img 
+                  src={details?.image_url || 'https://via.placeholder.com/120?text=Item'} 
+                  alt="owned" 
+                  style={itemImage} 
+                />
+                <h3 style={itemTitle}>
+                  {details ? (lang === 'en' ? details.name_en : details.name_cn) : `Item: ${invItem.sku}`}
+                </h3>
+                <p style={{ ...descStyle, minHeight: 'auto' }}>
+                  {details ? (lang === 'en' ? details.description_en : details.description_cn) : "Acquired from the Royal Treasury"}
+                </p>
+                <p style={priceStyle}>
+                  OWNED: <span style={{ color: '#f4ebd0' }}>{invItem.quantity}</span>
+                </p>
+              </div>
+              <button style={{ ...buyBtn, opacity: 0.5, cursor: 'default' }}>COLLECTED</button>
+            </div>
+          );
+        })}
       </div>
-    ) : (
+    )}
+  </div>
+) : (
       /* --- CART VIEW --- */
       <div style={{ maxWidth: '800px', margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px' }}>
