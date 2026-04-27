@@ -209,19 +209,16 @@ useEffect(() => {
     });
 
         const data = await response.json();
-        if (data.token) {
-    console.log("Token received, opening widget...");
+if (data.token) {
     const xWidget = (window as any).XPayStationWidget;
     if (xWidget) {
-        xWidget.init({ 
-            access_token: data.token, 
-            sandbox: true 
-        });
-        // Small delay can sometimes bypass browser 'stale click' protections
-        setTimeout(() => {
-            xWidget.open();
-        }, 50); 
+        xWidget.init({ access_token: data.token, sandbox: true });
+        xWidget.open();
     }
+} else {
+    // 🚀 ADD THIS TO SEE THE ERROR
+    console.error("Backend Error Details:", data);
+    alert(`Checkout Failed: ${data.message || "Unknown Server Error"}`);
 }
     } catch (err) {
         console.error("Checkout failed:", err);
