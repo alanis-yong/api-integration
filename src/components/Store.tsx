@@ -223,12 +223,11 @@ useEffect(() => {
         });
 
         const data = await response.json();
+console.log("Xsolla Response:", data);
 if (data.token) {
     const xWidget = (window as any).XPayStationWidget;
-    if (xWidget) {
-        xWidget.init({ access_token: data.token, sandbox: true });
-        xWidget.open();
-    }
+    xWidget.init({ access_token: data.token, sandbox: true });
+    xWidget.open();
 } else {
     // 🚀 ADD THIS TO SEE THE ERROR
     console.error("Backend Error Details:", data);
