@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { GTAG_EVENTS } from '../types/gtag'
 import { createOrder } from '../api/api' 
@@ -18,6 +18,20 @@ export function PaymentForm({ totalPrice, cartItems, onSubmit }: PaymentFormProp
   const [form, setForm] = useState({ cardNumber: '', name: '', expiry: '', cvc: '', promo: '' })
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [paying, setPaying] = useState(false)
+
+  useEffect(() => {
+    fireEvent(GTAG_EVENTS.ADD_PAYMENT_INFO, {
+      currency: 'RUB',
+      value: totalPrice,
+      payment_type: 'Credit Card', 
+      items: cartItems.map(ci => ({
+        item_id: String(ci.item.id),
+        item_name: ci.item.name,
+        price: ci.item.price,
+        quantity: ci.quantity
+      }))
+    })
+  }, [])
 
   const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [field]: e.target.value })
@@ -51,19 +65,6 @@ export function PaymentForm({ totalPrice, cartItems, onSubmit }: PaymentFormProp
     setPaying(true)
 
     try {
-      fireEvent(GTAG_EVENTS.ADD_PAYMENT_INFO, {
-        currency: 'RUB',
-        value: totalPrice,
-        payment_type: 'Credit Card',
-        items: cartItems.map(ci => ({
-          item_id: String(ci.item.id),
-          item_name: ci.item.name,
-          price: ci.item.price,
-          quantity: ci.quantity
-        }))
-      })
-
-      // throw new Error("REJECTED: Insufficient Funds");
 
       const response = { order_id: `DEMO_${Date.now()}` };
 
