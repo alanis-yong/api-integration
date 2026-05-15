@@ -65,26 +65,8 @@ export function PaymentForm({ totalPrice, cartItems, onSubmit }: PaymentFormProp
     setPaying(true)
 
     try {
-
-      const response = { order_id: `DEMO_${Date.now()}` };
-
-      fireEvent(GTAG_EVENTS.PURCHASE, {
-        transaction_id: response.order_id,
-        value: totalPrice,
-        currency: 'RUB',
-        coupon: form.promo || undefined,
-        items: cartItems.map(ci => ({
-          item_id: String(ci.item.id),
-          item_name: ci.item.name,
-          price: ci.item.price,
-          quantity: ci.quantity
-        }))
-      })
-
       onSubmit() 
       navigate('/checkout/confirmation')
-
-
     } catch (err: any) {
       fireEvent(GTAG_EVENTS.PAYMENT_FAILED, {
         error_type: 'PAYMENT_GATEWAY_ERROR',

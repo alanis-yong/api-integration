@@ -21,7 +21,7 @@ declare global {
 
 function fireEventImpl(eventName: GtagEventName, params?: Record<string, unknown>) {
   if (typeof gtag !== 'function') return;
-  gtag('event', eventName, params);
+  gtag('event', eventName, params, { transport_type: 'beacon' });
 }
 
 (globalThis as any).fireEvent = fireEventImpl;
